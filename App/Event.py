@@ -6,8 +6,8 @@ class Event:
     handler = None
     game = None
 
-    def __init__(self, pygame, event, game):
-        self.handler = Handler(pygame)
+    def __init__(self, game, event):
+        self.handler = Handler(game.pygame)
         self.event = event
         self.game = game
 

@@ -2,20 +2,18 @@ from App.Illustrator import Illustrator
 from App.colors import *
 
 class Screen:
-    pygame = None
-    display = None
+    game = None
     illustrator = None
 
-    def __init__(self, pygame, display):
-        self.pygame = pygame
-        self.display = display
-        self.illustrator = Illustrator(pygame, display)
+    def __init__(self, game):
+        self.game = game
+        self.illustrator = Illustrator(game.pygame, game.display)
 
     def draw(self):
         return self.illustrator
 
     def update(self):
-        self.pygame.display.update()
+        self.game.pygame.display.update()
 
     def initBackground(self):
-        self.display.fill(COLOR_MIDNIGHT_BLUE)
+        self.game.display.fill(COLOR_MIDNIGHT_BLUE)

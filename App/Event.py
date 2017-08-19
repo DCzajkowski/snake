@@ -7,7 +7,7 @@ class Event:
     game = None
 
     def __init__(self, game, event):
-        self.handler = Handler(game.pygame)
+        self.handler = Handler(game)
         self.event = event
         self.game = game
 
@@ -21,10 +21,8 @@ class Event:
         if self.cmdPressed(modifier):
             if key == K_w:
                 self.handler.quit()
-        if key == K_LEFT:
-            self.game.snake.changeHeadX(-10)
-        if key == K_RIGHT:
-            self.game.snake.changeHeadX(10)
+        if key in [K_LEFT, K_RIGHT, K_UP, K_DOWN]:
+            self.handler.moveSnake(key)
 
     def cmdPressed(self, modifier):
         return modifier in [KMOD_LMETA, KMOD_RMETA, KMOD_META]

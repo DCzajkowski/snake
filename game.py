@@ -6,14 +6,8 @@ from App.Game import Game
 
 pygame.init()
 
-display = pygame.display.set_mode((800, 600))
-pygame.display.set_caption('The Snake Game')
-
-#----
-
-game = Game(pygame, display, Snake(300, 300))
-
-#----
+game = Game(pygame, Snake(300, 300))
+game.init()
 
 while True:
     for event in pygame.event.get():
@@ -25,3 +19,5 @@ while True:
     screen.initBackground()
     screen.draw().head(game.snake.headX, game.snake.headY)
     screen.update()
+
+    game.clock.tick(25)

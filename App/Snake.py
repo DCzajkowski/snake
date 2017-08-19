@@ -12,8 +12,8 @@ class Snake:
         self.headX += x
         self.headY += y
 
-    def changeHeadX(self, value):
-        self.headXChange = value
-
-    def changeHeadY(self, value):
-        self.headYChange = value
+    def setHeadChange(self, x, y):
+        if x is not None:
+            self.headXChange = x
+        if y is not None:
+            self.headYChange = y

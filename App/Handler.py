@@ -1,4 +1,5 @@
 from pygame.locals import *
+from config import *
 
 class Handler:
     game = None
@@ -12,10 +13,10 @@ class Handler:
 
     def moveSnake(self, key):
         if key == K_LEFT:
-            self.game.snake.setHeadChange(-10, 0)
+            self.game.snake.setHeadChange(-SNAKE_WIDTH, 0)
         elif key == K_RIGHT:
-            self.game.snake.setHeadChange(10, 0)
+            self.game.snake.setHeadChange(SNAKE_WIDTH, 0)
         elif key == K_UP:
-            self.game.snake.setHeadChange(0, -10)
+            self.game.snake.setHeadChange(0, -SNAKE_WIDTH)
         elif key == K_DOWN:
-            self.game.snake.setHeadChange(0, 10)
+            self.game.snake.setHeadChange(0, SNAKE_WIDTH)

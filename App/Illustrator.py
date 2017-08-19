@@ -1,4 +1,4 @@
-from App.colors import *
+from config import *
 
 class Illustrator:
     pygame = None
@@ -9,4 +9,4 @@ class Illustrator:
         self.display = display
 
     def head(self, x, y):
-        self.pygame.draw.rect(self.display, COLOR_CLOUDS, [x, y, 10, 10])
+        self.pygame.draw.rect(self.display, SNAKE_HEAD_COLOR, [x, y, 10, 10])

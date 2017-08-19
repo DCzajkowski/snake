@@ -4,10 +4,12 @@ from App.Handler import Handler
 class Event:
     event = None
     handler = None
+    game = None
 
-    def __init__(self, pygame, event):
+    def __init__(self, pygame, event, game):
         self.handler = Handler(pygame)
         self.event = event
+        self.game = game
 
     def handle(self, options = None):
         if self.event.type == QUIT:
@@ -19,6 +21,10 @@ class Event:
         if self.cmdPressed(modifier):
             if key == K_w:
                 self.handler.quit()
+        if key == K_LEFT:
+            self.game.snake.changeHeadX(-10)
+        if key == K_RIGHT:
+            self.game.snake.changeHeadX(10)
 
     def cmdPressed(self, modifier):
         return modifier in [KMOD_LMETA, KMOD_RMETA, KMOD_META]

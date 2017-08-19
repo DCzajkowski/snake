@@ -1,10 +1,14 @@
+from config import *
+
 class Snake:
+    width = 0
     headX = None
     headY = None
     headXChange = 0
     headYChange = 0
 
-    def __init__(self, headX = 0, headY = 0):
+    def __init__(self, width = SNAKE_WIDTH, headX = 0, headY = 0):
+        self.width = width
         self.headX = headX
         self.headY = headY
 

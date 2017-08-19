@@ -74,15 +74,10 @@ class Game:
 
             self.snake.loopBackIfLeftTheScreen()
             self.snake.moveHead(self.snake.headXChange, self.snake.headYChange)
+            self.snake.createTail()
 
             self.screen.initBackground()
             self.screen.draw().apple(self.apple.x, self.apple.y)
-
-            self.snake.tail.append([self.snake.headX, self.snake.headY])
-
-            if len(self.snake.tail) > self.snake.length:
-                del self.snake.tail[0]
-
             self.screen.draw().snake(self.snake)
             self.screen.update()
 

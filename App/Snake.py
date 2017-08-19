@@ -56,3 +56,9 @@ class Snake:
 
     def incrementLength(self):
         self.length += 1
+
+    def createTail(self):
+        self.tail.append([self.headX, self.headY])
+
+        if len(self.tail) > self.length:
+            del self.tail[0]

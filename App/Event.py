@@ -26,17 +26,22 @@ class Event:
         if scene == GAME_SCENE:
             if key in [K_LEFT, K_RIGHT, K_UP, K_DOWN]:
                 self.handler.moveSnake(key)
-            if key == K_d:
-                self.game.debug = True
             if self.game.debug:
-                if key == K_g:
+                if key == K_e:
                     self.game.end()
                 if key == K_i:
                     self.game.snake.incrementLength()
+                if key == K_d:
+                    self.game.debug = False
+                if key == K_g:
+                    self.game.toggleGrid()
+            else:
+                if key == K_d:
+                    self.game.debug = True
         elif scene == GAME_OVER_SCENE:
-            if self.event.key == K_ESCAPE:
+            if key == K_ESCAPE:
                 self.handler.quit()
-            if self.event.key == K_SPACE:
+            if key == K_SPACE:
                 self.game.reset()
                 self.game.run()
 

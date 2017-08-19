@@ -16,6 +16,7 @@ class Game:
     gameOver = False
     apple = None
     debug = False
+    showGrid = False
 
     def __init__(self, pygame, snake, display = None, clock = None, handler = None, width = 800, height = 600):
         self.pygame = pygame
@@ -75,6 +76,9 @@ class Game:
     def removeApple(self):
         self.apple = None
 
+    def toggleGrid(self):
+        self.showGrid = not self.showGrid
+
     def run(self):
         self.generateNewApple()
 
@@ -108,6 +112,8 @@ class Game:
                 self.end()
 
             if self.debug:
+                if self.showGrid:
+                    self.screen.draw().grid()
                 self.showDebugMessage()
 
             self.showScore(self.snake.length)

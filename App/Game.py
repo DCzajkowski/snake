@@ -2,8 +2,10 @@ from config import *
 from App.Handler import Handler
 from App.Event import Event
 from App.Screen import Screen
+from App.Apple import Apple
 import time
 from pygame.locals import *
+import random
 
 class Game:
     pygame = None
@@ -14,6 +16,7 @@ class Game:
     headerFont = None
     spanFont = None
     gameOver = False
+    apple = None
 
     def __init__(self, pygame, snake, display = None, clock = None, handler = None, headerFont = None, spanFont = None, width = 800, height = 600):
         self.pygame = pygame
@@ -37,6 +40,7 @@ class Game:
     def reset(self):
         self.gameOver = False
         self.snake.reset()
+        self.apple = None
 
     def end(self):
         self.gameOver = True
@@ -45,7 +49,12 @@ class Game:
         self.display.fill(COLOR_EMERALD)
         self.message('Game Over', 'Press ESC to quit or any key to continue...', COLOR_CLOUDS, COLOR_CLOUDS)
 
+    def generateNewApple(self):
+        self.apple = Apple(random.randrange(0, WINDOW_WIDTH - APPLE_SIZE), random.randrange(0, WINDOW_HEIGHT - APPLE_SIZE))
+
     def run(self):
+        self.generateNewApple()
+
         while True:
             if self.gameOver:
                 scene = GAME_OVER_SCENE
@@ -63,6 +72,7 @@ class Game:
             self.snake.moveHead(self.snake.headXChange, self.snake.headYChange)
 
             self.screen.initBackground()
+            self.screen.draw().apple(self.apple.x, self.apple.y)
             self.screen.draw().head(self.snake.headX, self.snake.headY)
             self.screen.update()
 

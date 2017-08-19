@@ -31,6 +31,9 @@ class Snake:
         self.headY = WINDOW_HEIGHT / 2
         self.headXChange = 0
         self.headYChange = 0
+        self.tail = []
+        self.length = 1
+        self.speed = self.width
 
     def turnLeft(self):
         self.setHeadChange(-self.speed, 0)

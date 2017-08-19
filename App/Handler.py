@@ -24,3 +24,9 @@ class Handler:
 
     def didSnakeCollideWithAnApple(self, snake, apple):
         return snake.headX == apple.x and snake.headY == apple.y
+
+    def didSnakeCollideWithItself(self, snake):
+        for segment in snake.tail[:-1]:
+            if segment[0] == snake.headX and segment[1] == snake.headY:
+                return True
+        return False

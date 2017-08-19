@@ -47,12 +47,12 @@ class Snake:
     def turnDown(self):
         self.setHeadChange(0, self.speed)
 
-    def loopBackIfLeftTheScreen(self):
-        if self.headX > WINDOW_WIDTH - self.width:
+    def loopBack(self):
+        if self.headX >= WINDOW_WIDTH:
             self.headX = -self.width
         elif self.headX < 0:
             self.headX = WINDOW_WIDTH
-        elif self.headY > WINDOW_HEIGHT - self.width:
+        elif self.headY >= WINDOW_HEIGHT:
             self.headY = -self.width
         elif self.headY < 0:
             self.headY = WINDOW_HEIGHT

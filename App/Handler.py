@@ -33,3 +33,19 @@ class Handler:
             if segment[0] == snake.headX and segment[1] == snake.headY:
                 return True
         return False
+
+    def didSnakeGoOffScreen(self, snake):
+        print(snake.headX)
+        return (snake.headX >= WINDOW_WIDTH
+            or snake.headX < 0
+            or snake.headY >= WINDOW_HEIGHT
+            or snake.headY < 0)
+
+    def doesAppleOverlapSnake(self, apple, snake):
+        for segment in snake.tail[:-1]:
+            if (segment[0] >= apple.x
+                and segment[0] < apple.x + apple.size
+                and segment[1] >= apple.y
+                and segment[1] < apple.y + apple.size):
+                return True
+        return False

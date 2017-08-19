@@ -65,7 +65,12 @@ class Game:
         x = x - (x % GRID_SIZE)
         y = round(random.randrange(0, WINDOW_HEIGHT - APPLE_SIZE) / 10.0) * 10.0
         y = y - (y % GRID_SIZE)
-        self.apple = Apple(x, y, APPLE_SIZE)
+        apple = Apple(x, y, APPLE_SIZE)
+
+        if self.handler.doesAppleOverlapSnake(apple, self.snake):
+            self.generateNewApple()
+        else:
+            self.apple = apple
 
     def removeApple(self):
         self.apple = None
@@ -83,7 +88,9 @@ class Game:
             for event in self.pygame.event.get():
                 Event(self, event).handle(scene)
 
-            self.snake.loopBackIfLeftTheScreen()
+            if self.handler.didSnakeGoOffScreen(self.snake):
+                self.snake.loopBack()
+
             self.snake.moveHead(self.snake.headXChange, self.snake.headYChange)
             self.snake.createTail()
 

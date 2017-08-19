@@ -2,11 +2,13 @@ from config import *
 
 class Snake:
     width = 0
-    headX = None
-    headY = None
+    headX = 0
+    headY = 0
     headXChange = 0
     headYChange = 0
     speed = 0
+    tail = []
+    length = 1
 
     def __init__(self, width = SNAKE_WIDTH, headX = 0, headY = 0):
         self.width = width
@@ -44,10 +46,13 @@ class Snake:
 
     def loopBackIfLeftTheScreen(self):
         if self.headX > WINDOW_WIDTH - self.width:
-            self.headX = 0
+            self.headX = -self.width
         elif self.headX < 0:
-            self.headX = WINDOW_WIDTH - self.width
+            self.headX = WINDOW_WIDTH
         elif self.headY > WINDOW_HEIGHT - self.width:
-            self.headY = 0
+            self.headY = -self.width
         elif self.headY < 0:
-            self.headY = WINDOW_HEIGHT - self.width
+            self.headY = WINDOW_HEIGHT
+
+    def incrementLength(self):
+        self.length += 1

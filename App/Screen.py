@@ -7,7 +7,7 @@ class Screen:
 
     def __init__(self, game):
         self.game = game
-        self.illustrator = Illustrator(game.pygame, game.display)
+        self.illustrator = Illustrator(game)
 
     def draw(self):
         return self.illustrator

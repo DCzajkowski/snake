@@ -1,15 +1,14 @@
 from config import *
 
 class Illustrator:
-    pygame = None
-    display = None
+    game = None
 
-    def __init__(self, pygame, display):
-        self.pygame = pygame
-        self.display = display
+    def __init__(self, game):
+        self.game = game
 
-    def head(self, x, y):
-        self.pygame.draw.rect(self.display, SNAKE_HEAD_COLOR, [x, y, SNAKE_WIDTH, SNAKE_WIDTH])
+    def snake(self, snake):
+        for segment in snake.tail:
+            self.game.pygame.draw.rect(self.game.display, SNAKE_HEAD_COLOR, [segment[0], segment[1], snake.width, snake.width])
 
     def apple(self, x, y):
-        self.pygame.draw.rect(self.display, APPLE_COLOR, [x, y, APPLE_SIZE, APPLE_SIZE])
+        self.game.pygame.draw.rect(self.game.display, APPLE_COLOR, [x, y, APPLE_SIZE, APPLE_SIZE])

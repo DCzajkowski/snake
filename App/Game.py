@@ -13,26 +13,26 @@ class Game:
     display = None
     snake = None
     clock = None
-    headerFont = None
-    spanFont = None
     gameOver = False
     apple = None
+    debug = False
 
-    def __init__(self, pygame, snake, display = None, clock = None, handler = None, headerFont = None, spanFont = None, width = 800, height = 600):
+    def __init__(self, pygame, snake, display = None, clock = None, handler = None, width = 800, height = 600):
         self.pygame = pygame
         self.snake = snake
         self.display = display if display is not None else pygame.display.set_mode((width, height))
         self.clock = clock if clock is not None else pygame.time.Clock()
         self.handler = handler if handler is not None else Handler(self)
-        self.headerFont = headerFont if headerFont is not None else pygame.font.SysFont(None, 40)
-        self.spanFont = spanFont if spanFont is not None else pygame.font.SysFont(None, 25)
 
         self.pygame.display.set_caption('The Snake Game')
         self.screen = Screen(self)
 
     def message(self, header, span, headerColor, spanColor):
-        header = self.headerFont.render(header, True, headerColor)
-        span = self.spanFont.render(span, True, spanColor)
+        headerFont = self.pygame.font.SysFont(None, 40)
+        spanFont = self.pygame.font.SysFont(None, 25)
+
+        header = headerFont.render(header, True, headerColor)
+        span = spanFont.render(span, True, spanColor)
         self.display.blit(header, [WINDOW_WIDTH / 2 - header.get_rect().width / 2, WINDOW_HEIGHT / 2 - 15])
         self.display.blit(span, [WINDOW_WIDTH / 2 - span.get_rect().width / 2, WINDOW_HEIGHT / 2 + 15])
         self.pygame.display.update()
@@ -77,12 +77,27 @@ class Game:
 
             self.screen.initBackground()
             self.screen.draw().apple(self.apple.x, self.apple.y)
-            self.screen.draw().head(self.snake.headX, self.snake.headY)
+
+            self.snake.tail.append([self.snake.headX, self.snake.headY])
+
+            if len(self.snake.tail) > self.snake.length:
+                del self.snake.tail[0]
+
+            self.screen.draw().snake(self.snake)
             self.screen.update()
 
             if self.handler.didSnakeCollideWithAnApple(self.snake, self.apple):
                 self.removeApple()
                 self.generateNewApple()
+                self.snake.incrementLength()
 
+            if self.debug:
+                self.renderDebugMessage()
 
             self.clock.tick(FRAMERATE)
+
+    def renderDebugMessage(self):
+        smallFont = self.pygame.font.SysFont(None, 15)
+        debugMessage = smallFont.render('In Debug Mode', True, COLOR_CLOUDS)
+        self.display.blit(debugMessage, [WINDOW_WIDTH - debugMessage.get_rect().width, WINDOW_HEIGHT - debugMessage.get_rect().height])
+        self.pygame.display.update()

@@ -32,8 +32,13 @@ class Event:
                 self.handler.quit()
         if key in [K_LEFT, K_RIGHT, K_UP, K_DOWN]:
             self.handler.moveSnake(key)
-        if key == K_g:
-            self.game.end()
+        if key == K_d:
+            self.game.debug = True
+        if self.game.debug:
+            if key == K_g:
+                self.game.end()
+            if key == K_i:
+                self.game.snake.incrementLength()
 
     def cmdPressed(self, modifier):
         return modifier in [KMOD_LMETA, KMOD_RMETA, KMOD_META]

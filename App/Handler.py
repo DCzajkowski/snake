@@ -1,5 +1,6 @@
 from pygame.locals import *
 from config import *
+import time
 
 class Handler:
     game = None

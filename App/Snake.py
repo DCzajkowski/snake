@@ -21,3 +21,9 @@ class Snake:
             self.headXChange = x
         if y is not None:
             self.headYChange = y
+
+    def reset(self):
+        self.headX = WINDOW_WIDTH / 2
+        self.headY = WINDOW_HEIGHT / 2
+        self.headXChange = 0
+        self.headYChange = 0

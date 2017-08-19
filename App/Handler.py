@@ -14,13 +14,13 @@ class Handler:
 
     def moveSnake(self, key):
         if key == K_LEFT:
-            self.game.snake.setHeadChange(-self.game.snake.width, 0)
+            self.game.snake.turnLeft()
         elif key == K_RIGHT:
-            self.game.snake.setHeadChange(self.game.snake.width, 0)
+            self.game.snake.turnRight()
         elif key == K_UP:
-            self.game.snake.setHeadChange(0, -self.game.snake.width)
+            self.game.snake.turnUp()
         elif key == K_DOWN:
-            self.game.snake.setHeadChange(0, self.game.snake.width)
+            self.game.snake.turnDown()
 
     def loopSnakeBackIfLeftTheScreen(self):
         snake = self.game.snake

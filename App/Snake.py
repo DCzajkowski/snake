@@ -6,11 +6,13 @@ class Snake:
     headY = None
     headXChange = 0
     headYChange = 0
+    speed = 0
 
     def __init__(self, width = SNAKE_WIDTH, headX = 0, headY = 0):
         self.width = width
         self.headX = headX
         self.headY = headY
+        self.speed = width
 
     def moveHead(self, x, y):
         self.headX += x
@@ -27,3 +29,15 @@ class Snake:
         self.headY = WINDOW_HEIGHT / 2
         self.headXChange = 0
         self.headYChange = 0
+
+    def turnLeft(self):
+        self.setHeadChange(-self.speed, 0)
+
+    def turnRight(self):
+        self.setHeadChange(self.speed, 0)
+
+    def turnUp(self):
+        self.setHeadChange(0, -self.speed)
+
+    def turnDown(self):
+        self.setHeadChange(0, self.speed)

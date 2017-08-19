@@ -21,10 +21,10 @@ class Event:
                 self.handler.quit()
 
     def cmdPressed(self, modifier):
-        return modifier in [KMOD_LMETA, KMOD_RMETA]
+        return modifier in [KMOD_LMETA, KMOD_RMETA, KMOD_META]
 
     def altPressed(self, modifier):
-        return modifier in [KMOD_LALT, KMOD_RALT]
+        return modifier in [KMOD_LALT, KMOD_RALT, KMOD_ALT]
 
     def ctrlPressed(self, modifier):
-        return modifier in [KMOD_LCTRL, KMOD_RCTRL]
+        return modifier in [KMOD_LCTRL, KMOD_RCTRL, KMOD_CTRL]

@@ -50,7 +50,12 @@ class Game:
         self.message('Game Over', 'Press ESC to quit or any key to continue...', COLOR_CLOUDS, COLOR_CLOUDS)
 
     def generateNewApple(self):
-        self.apple = Apple(random.randrange(0, WINDOW_WIDTH - APPLE_SIZE), random.randrange(0, WINDOW_HEIGHT - APPLE_SIZE))
+        x = round(random.randrange(0, WINDOW_WIDTH - APPLE_SIZE) / 10.0) * 10.0
+        y = round(random.randrange(0, WINDOW_HEIGHT - APPLE_SIZE) / 10.0) * 10.0
+        self.apple = Apple(x, y, APPLE_SIZE)
+
+    def removeApple(self):
+        self.apple = None
 
     def run(self):
         self.generateNewApple()
@@ -67,8 +72,7 @@ class Game:
             for event in self.pygame.event.get():
                 Event(self, event).handle(scene)
 
-            self.handler.loopSnakeBackIfLeftTheScreen()
-
+            self.snake.loopBackIfLeftTheScreen()
             self.snake.moveHead(self.snake.headXChange, self.snake.headYChange)
 
             self.screen.initBackground()
@@ -76,4 +80,9 @@ class Game:
             self.screen.draw().head(self.snake.headX, self.snake.headY)
             self.screen.update()
 
-            self.clock.tick(25)
+            if self.handler.didSnakeCollideWithAnApple(self.snake, self.apple):
+                self.removeApple()
+                self.generateNewApple()
+
+
+            self.clock.tick(FRAMERATE)

@@ -22,14 +22,5 @@ class Handler:
         elif key == K_DOWN:
             self.game.snake.turnDown()
 
-    def loopSnakeBackIfLeftTheScreen(self):
-        snake = self.game.snake
-
-        if snake.headX > WINDOW_WIDTH - self.game.snake.width:
-            snake.headX = 0
-        elif snake.headX < 0:
-            snake.headX = WINDOW_WIDTH - self.game.snake.width
-        elif snake.headY > WINDOW_HEIGHT - self.game.snake.width:
-            snake.headY = 0
-        elif snake.headY < 0:
-            snake.headY = WINDOW_HEIGHT - self.game.snake.width
+    def didSnakeCollideWithAnApple(self, snake, apple):
+        return snake.headX == apple.x and snake.headY == apple.y

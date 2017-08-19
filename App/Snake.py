@@ -10,10 +10,10 @@ class Snake:
     tail = []
     length = 1
 
-    def __init__(self, width = SNAKE_WIDTH, headX = 0, headY = 0):
+    def __init__(self, width = SNAKE_WIDTH, headX = None, headY = None):
         self.width = width
-        self.headX = headX
-        self.headY = headY
+        self.headX = headX if headX is not None else (WINDOW_WIDTH / 2 - width) - ((WINDOW_WIDTH / 2) % GRID_SIZE)
+        self.headY = headY if headY is not None else (WINDOW_HEIGHT / 2 - width) - ((WINDOW_HEIGHT / 2) % GRID_SIZE)
         self.speed = width
 
     def moveHead(self, x, y):
@@ -27,8 +27,8 @@ class Snake:
             self.headYChange = y
 
     def reset(self):
-        self.headX = WINDOW_WIDTH / 2
-        self.headY = WINDOW_HEIGHT / 2
+        self.headX = (WINDOW_WIDTH / 2) - ((WINDOW_WIDTH / 2) % GRID_SIZE)
+        self.headY = (WINDOW_HEIGHT / 2) - ((WINDOW_HEIGHT / 2) % GRID_SIZE)
         self.headXChange = 0
         self.headYChange = 0
         self.tail = []

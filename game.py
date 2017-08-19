@@ -5,5 +5,5 @@ from config import *
 
 pygame.init()
 
-game = Game(pygame, Snake(SNAKE_WIDTH, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), width = WINDOW_WIDTH, height = WINDOW_HEIGHT)
+game = Game(pygame, Snake(), width = WINDOW_WIDTH, height = WINDOW_HEIGHT)
 game.run()

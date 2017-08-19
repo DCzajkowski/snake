@@ -62,7 +62,9 @@ class Game:
 
     def generateNewApple(self):
         x = round(random.randrange(0, WINDOW_WIDTH - APPLE_SIZE) / 10.0) * 10.0
+        x = x - (x % GRID_SIZE)
         y = round(random.randrange(0, WINDOW_HEIGHT - APPLE_SIZE) / 10.0) * 10.0
+        y = y - (y % GRID_SIZE)
         self.apple = Apple(x, y, APPLE_SIZE)
 
     def removeApple(self):

@@ -23,7 +23,10 @@ class Handler:
             self.game.snake.turnDown()
 
     def didSnakeCollideWithAnApple(self, snake, apple):
-        return snake.headX == apple.x and snake.headY == apple.y
+        return (snake.headX >= apple.x
+            and snake.headX < apple.x + apple.size
+            and snake.headY >= apple.y
+            and snake.headY < apple.y + apple.size)
 
     def didSnakeCollideWithItself(self, snake):
         for segment in snake.tail[:-1]:

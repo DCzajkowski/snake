@@ -17,19 +17,23 @@ class Game:
     apple = None
     images = None
     config = None
+    highscore = None
 
-    def __init__(self, pygame, snake, display = None, clock = None, handler = None, width = 800, height = 600):
+    def __init__(self, pygame, snake, highscore = None, display = None, clock = None, handler = None, width = 800, height = 600):
         self.pygame = pygame
         self.snake = snake
         self.display = display if display is not None else pygame.display.set_mode((width, height))
         self.clock = clock if clock is not None else pygame.time.Clock()
         self.handler = handler if handler is not None else Handler(self)
+        self.highscore = highscore if highscore is not None else 0
 
         self.pygame.display.set_caption('The Snake Game')
+        self.pygame.display.set_icon(self.pygame.image.load('/Users/Darek/Documents/Development/Python/dc-snake/assets/icon.png'))
+
         self.images = {
-            'snake-head': self.pygame.image.load('/Users/Darek/Desktop/dc-snake/assets/snake_head.png'),
-            'snake-body': self.pygame.image.load('/Users/Darek/Desktop/dc-snake/assets/snake_body.png'),
-            'apple': self.pygame.image.load('/Users/Darek/Desktop/dc-snake/assets/apple.png')
+            'snake-head': self.pygame.image.load('/Users/Darek/Documents/Development/Python/dc-snake/assets/snake_head.png'),
+            'snake-body': self.pygame.image.load('/Users/Darek/Documents/Development/Python/dc-snake/assets/snake_body.png'),
+            'apple': self.pygame.image.load('/Users/Darek/Documents/Development/Python/dc-snake/assets/apple.png')
         }
         self.config = {
             'style': 0,
@@ -73,9 +77,14 @@ class Game:
     def end(self):
         self.gameOver = True
 
+    def updateHighscore(self):
+        if self.snake.length > self.highscore:
+            self.highscore = self.snake.length
+        open('db.txt', 'w').write('highscore=' + str(self.highscore))
+
     def showGameOverScreen(self):
         self.display.fill(COLOR_EMERALD)
-        self.message('Game Over', 'Press ESC to quit or space bar to continue...', COLOR_CLOUDS, COLOR_CLOUDS)
+        self.message('Game Over (Your Score: ' + str(self.snake.length) + ')', 'Press ESC to quit or space bar to continue...', COLOR_CLOUDS, COLOR_CLOUDS)
 
     def showDebugMessage(self):
         debugMessage = self.font(15).render('In Debug Mode', True, COLOR_CLOUDS)
@@ -85,6 +94,11 @@ class Game:
     def showScore(self, score):
         debugMessage = self.font(20).render('Current length: ' + str(score), True, COLOR_CLOUDS)
         self.display.blit(debugMessage, [10, 10])
+        self.pygame.display.update()
+
+    def showHighScore(self, score):
+        highscoreMessage = self.font(20).render('Highscore: ' + str(score), True, COLOR_CLOUDS)
+        self.display.blit(highscoreMessage, [WINDOW_WIDTH - highscoreMessage.get_rect().width - 10, 10])
         self.pygame.display.update()
 
     def generateNewApple(self):
@@ -145,6 +159,7 @@ class Game:
                     self.removeApple()
                     self.generateNewApple()
                     self.snake.incrementLength()
+                    self.updateHighscore()
 
                 if self.inDebugMode():
                     if self.config['showGrid']:
@@ -152,6 +167,7 @@ class Game:
                     self.showDebugMessage()
 
                 self.showScore(self.snake.length)
+                self.showHighScore(self.highscore)
 
                 if self.handler.didSnakeCollideWithItself(self.snake):
                     self.end()

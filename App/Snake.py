@@ -32,7 +32,7 @@ class Snake:
         self.yVelocity = 0
         self.tail = []
         self.length = 1
-        self.direction = 0
+        self.direction = None
 
     def turnLeft(self):
         self.setHeadChange(-1, 0)

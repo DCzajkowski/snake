@@ -15,7 +15,6 @@ class Game:
     clock = None
     gameOver = False
     apple = None
-    showGrid = False
     images = None
     config = None
 
@@ -35,6 +34,7 @@ class Game:
         self.config = {
             'style': 0,
             'debug': False,
+            'showGrid': False,
             'styles': [
                 {
                     'bg-color': COLOR_MIDNIGHT_BLUE,
@@ -103,7 +103,7 @@ class Game:
         self.apple = None
 
     def toggleGrid(self):
-        self.showGrid = not self.showGrid
+        self.config['showGrid'] = not self.config['showGrid']
 
     def toggleStyle(self):
         if self.config['style'] + 1 < len(self.config['styles']):
@@ -150,7 +150,7 @@ class Game:
                 self.end()
 
             if self.inDebugMode():
-                if self.showGrid:
+                if self.config['showGrid']:
                     self.screen.draw().grid()
                 self.showDebugMessage()
 

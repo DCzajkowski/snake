@@ -5,6 +5,7 @@ from App.Apple import Apple
 import time
 from pygame.locals import *
 import random
+from App.Menu import Menu
 
 class Game:
     pygame = None
@@ -15,8 +16,9 @@ class Game:
     images = None
     config = None
     highscore = None
-    scene = GAME_SCENE
+    scene = MENU_SCENE
     screen = None
+    menu = None
 
     def __init__(self, pygame, snake, highscore = None, width = 800, height = 600):
         self.pygame = pygame
@@ -24,6 +26,7 @@ class Game:
         self.display = pygame.display.set_mode((width, height))
         self.clock = pygame.time.Clock()
         self.highscore = highscore if highscore is not None else 0
+        self.menu = Menu(self)
 
         self.pygame.display.set_caption('The Snake Game')
         self.pygame.display.set_icon(self.pygame.image.load('/Users/Darek/Documents/Development/Python/dc-snake/assets/icon.png'))
@@ -66,6 +69,8 @@ class Game:
                 self.showMainMenuScene()
             elif self.scene == PAUSE_SCENE:
                 self.showPauseScene()
+            elif self.scene == SETTINGS_SCENE:
+                self.showSettingsScene()
             elif self.scene == GAME_SCENE:
                 self.showGameScene()
 
@@ -74,6 +79,15 @@ class Game:
     # ---
 
     def showMainMenuScene(self):
+        self.display.fill(COLOR_ASBESTOS)
+        header = self.font(40).render('The Snake Game', True, COLOR_CLOUDS)
+
+        self.display.blit(header, [WINDOW_WIDTH / 2 - header.get_rect().width / 2, 50])
+        self.menu.display()
+        self.showHighScore(self.highscore)
+        self.screen.update()
+
+    def showSettingsScene(self):
         pass
 
     def showPauseScene(self):
@@ -124,6 +138,9 @@ class Game:
         self.scene = PAUSE_SCENE
 
     def unpause(self):
+        self.scene = GAME_SCENE
+
+    def play(self):
         self.scene = GAME_SCENE
 
     def reset(self):

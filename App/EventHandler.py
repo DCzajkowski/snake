@@ -46,26 +46,32 @@ class EventHandler:
                 self.game.unpause()
             if key == K_q:
                 self.game.quit()
+        elif scene == MENU_SCENE:
+            if key == K_DOWN:
+                self.game.menu.down()
+            if key == K_UP:
+                self.game.menu.up()
+            if key == K_RETURN:
+                self.game.menu.enter()
         elif scene == GAME_OVER_SCENE:
             if key == K_ESCAPE:
                 self.game.quit()
             if key == K_SPACE:
-                self.game.reset()
-                self.game.run()
+                self.game.scene = MENU_SCENE
 
     def moveSnake(self, key):
-        if self.snake.direction != 1:
+        if self.game.snake.direction != 1:
             if key == K_LEFT:
-                self.snake.turnLeft()
-        if self.snake.direction != 3:
+                self.game.snake.turnLeft()
+        if self.game.snake.direction != 3:
             if key == K_RIGHT:
-                self.snake.turnRight()
-        if self.snake.direction != 0:
+                self.game.snake.turnRight()
+        if self.game.snake.direction != 0:
             if key == K_UP:
-                self.snake.turnUp()
-        if self.snake.direction != 2:
+                self.game.snake.turnUp()
+        if self.game.snake.direction != 2:
             if key == K_DOWN:
-                self.snake.turnDown()
+                self.game.snake.turnDown()
 
     # ---
     # Modifiers

@@ -34,5 +34,6 @@ APPLE_COLOR = COLOR_POMEGRANATE
 
 MENU_SCENE = 'menu'
 GAME_SCENE = 'game'
+SETTINGS_SCENE = 'settings'
 GAME_OVER_SCENE = 'game over'
 PAUSE_SCENE = 'pause'

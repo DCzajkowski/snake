@@ -12,8 +12,8 @@ class Snake:
 
     def __init__(self, width = GRID_SIZE, x = None, y = None):
         self.width = width
-        self.x = x if x is not None else ((TILE_COUNT_X / 2) - 1)
-        self.y = y if y is not None else ((TILE_COUNT_X / 2) - 1)
+        self.x = x if x is not None else (round(TILE_COUNT_X / 2) - 1)
+        self.y = y if y is not None else (round(TILE_COUNT_Y / 2) - 1)
 
     def moveHead(self, x, y):
         self.x += x
@@ -26,8 +26,8 @@ class Snake:
             self.yVelocity = y
 
     def reset(self):
-        self.x = ((TILE_COUNT_X / 2) - 1)
-        self.y = ((TILE_COUNT_X / 2) - 1)
+        self.x = (round(TILE_COUNT_X / 2) - 1)
+        self.y = (round(TILE_COUNT_Y / 2) - 1)
         self.xVelocity = 0
         self.yVelocity = 0
         self.tail = []
@@ -35,24 +35,20 @@ class Snake:
         self.direction = 0
 
     def turnLeft(self):
-        if self.direction != 1:
-            self.setHeadChange(-1, 0)
-            self.direction = 3
+        self.setHeadChange(-1, 0)
+        self.direction = 3
 
     def turnRight(self):
-        if self.direction != 3:
-            self.setHeadChange(1, 0)
-            self.direction = 1
+        self.setHeadChange(1, 0)
+        self.direction = 1
 
     def turnUp(self):
-        if self.direction != 0:
-            self.setHeadChange(0, -1)
-            self.direction = 2
+        self.setHeadChange(0, -1)
+        self.direction = 2
 
     def turnDown(self):
-        if self.direction != 2:
-            self.setHeadChange(0, 1)
-            self.direction = 0
+        self.setHeadChange(0, 1)
+        self.direction = 0
 
     def loopBack(self):
         if self.x > TILE_COUNT_X - 1:

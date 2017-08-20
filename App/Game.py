@@ -128,31 +128,32 @@ class Game:
             for event in self.pygame.event.get():
                 Event(self, event).handle(scene)
 
-            if self.handler.didSnakeGoOffScreen(self.snake):
-                self.snake.loopBack()
-            else:
-                self.snake.moveHead(self.snake.xVelocity, self.snake.yVelocity)
+            if not self.gameOver:
+                if self.handler.didSnakeGoOffScreen(self.snake):
+                    self.snake.loopBack()
+                else:
+                    self.snake.moveHead(self.snake.xVelocity, self.snake.yVelocity)
 
-            self.snake.createTail()
+                self.snake.createTail()
 
-            self.screen.initBackground()
-            self.screen.draw().apple(self.apple.x, self.apple.y)
-            self.screen.draw().snake(self.snake)
-            self.screen.update()
+                self.screen.initBackground()
+                self.screen.draw().apple(self.apple.x, self.apple.y)
+                self.screen.draw().snake(self.snake)
+                self.screen.update()
 
-            if self.handler.didSnakeCollideWithAnApple(self.snake, self.apple):
-                self.removeApple()
-                self.generateNewApple()
-                self.snake.incrementLength()
+                if self.handler.didSnakeCollideWithAnApple(self.snake, self.apple):
+                    self.removeApple()
+                    self.generateNewApple()
+                    self.snake.incrementLength()
 
-            if self.handler.didSnakeCollideWithItself(self.snake):
-                self.end()
+                if self.inDebugMode():
+                    if self.config['showGrid']:
+                        self.screen.draw().grid()
+                    self.showDebugMessage()
 
-            if self.inDebugMode():
-                if self.config['showGrid']:
-                    self.screen.draw().grid()
-                self.showDebugMessage()
+                self.showScore(self.snake.length)
 
-            self.showScore(self.snake.length)
+                if self.handler.didSnakeCollideWithItself(self.snake):
+                    self.end()
 
-            self.clock.tick(FRAMERATE)
+                self.clock.tick(FRAMERATE)

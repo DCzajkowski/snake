@@ -13,14 +13,18 @@ class Handler:
         quit()
 
     def moveSnake(self, key):
-        if key == K_LEFT:
-            self.game.snake.turnLeft()
-        elif key == K_RIGHT:
-            self.game.snake.turnRight()
-        elif key == K_UP:
-            self.game.snake.turnUp()
-        elif key == K_DOWN:
-            self.game.snake.turnDown()
+        if self.game.snake.direction != 1:
+            if key == K_LEFT:
+                self.game.snake.turnLeft()
+        if self.game.snake.direction != 3:
+            if key == K_RIGHT:
+                self.game.snake.turnRight()
+        if self.game.snake.direction != 0:
+            if key == K_UP:
+                self.game.snake.turnUp()
+        if self.game.snake.direction != 2:
+            if key == K_DOWN:
+                self.game.snake.turnDown()
 
     def didSnakeGoOffScreen(self, snake):
         return (snake.x > TILE_COUNT_X - 1

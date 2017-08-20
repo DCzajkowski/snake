@@ -15,7 +15,6 @@ class Game:
     clock = None
     gameOver = False
     apple = None
-    debug = False
     showGrid = False
     images = None
     config = None
@@ -35,6 +34,7 @@ class Game:
         }
         self.config = {
             'style': 0,
+            'debug': False,
             'styles': [
                 {
                     'bg-color': COLOR_MIDNIGHT_BLUE,
@@ -66,7 +66,7 @@ class Game:
 
     def reset(self):
         self.gameOver = False
-        self.debug = False
+        self.setDebug(False)
         self.snake.reset()
         self.generateNewApple()
 
@@ -111,6 +111,12 @@ class Game:
         else:
             self.config['style'] = 0
 
+    def inDebugMode(self):
+        return self.config['debug']
+
+    def setDebug(self, value):
+        self.config['debug'] = value
+
     def run(self):
         self.generateNewApple()
 
@@ -143,7 +149,7 @@ class Game:
             if self.handler.didSnakeCollideWithItself(self.snake):
                 self.end()
 
-            if self.debug:
+            if self.inDebugMode():
                 if self.showGrid:
                     self.screen.draw().grid()
                 self.showDebugMessage()

@@ -6,16 +6,14 @@ class Snake:
     y = 0
     xVelocity = 0
     yVelocity = 0
-    speed = 0
     tail = []
     length = 1
     direction = 0
 
-    def __init__(self, width = SNAKE_WIDTH, x = None, y = None):
+    def __init__(self, width = GRID_SIZE, x = None, y = None):
         self.width = width
-        self.x = x if x is not None else (WINDOW_WIDTH / 2 - width) - ((WINDOW_WIDTH / 2) % GRID_SIZE)
-        self.y = y if y is not None else (WINDOW_HEIGHT / 2 - width) - ((WINDOW_HEIGHT / 2) % GRID_SIZE)
-        self.speed = width
+        self.x = x if x is not None else ((TILE_COUNT_X / 2) - 1)
+        self.y = y if y is not None else ((TILE_COUNT_X / 2) - 1)
 
     def moveHead(self, x, y):
         self.x += x
@@ -28,41 +26,39 @@ class Snake:
             self.yVelocity = y
 
     def reset(self):
-        self.x = (WINDOW_WIDTH / 2) - ((WINDOW_WIDTH / 2) % GRID_SIZE)
-        self.y = (WINDOW_HEIGHT / 2) - ((WINDOW_HEIGHT / 2) % GRID_SIZE)
+        self.x = ((TILE_COUNT_X / 2) - 1)
+        self.y = ((TILE_COUNT_X / 2) - 1)
         self.xVelocity = 0
         self.yVelocity = 0
         self.tail = []
         self.length = 1
-        self.speed = self.width
         self.direction = 0
 
     def turnLeft(self):
-        self.setHeadChange(-self.speed, 0)
+        self.setHeadChange(-1, 0)
         self.direction = 3
 
     def turnRight(self):
-        self.setHeadChange(self.speed, 0)
+        self.setHeadChange(1, 0)
         self.direction = 1
 
     def turnUp(self):
-        self.setHeadChange(0, -self.speed)
+        self.setHeadChange(0, -1)
         self.direction = 2
 
     def turnDown(self):
-        self.setHeadChange(0, self.speed)
+        self.setHeadChange(0, 1)
         self.direction = 0
 
     def loopBack(self):
-        print(self.x, WINDOW_WIDTH, self.width, WINDOW_WIDTH - self.width)
-        if self.x >= WINDOW_WIDTH:
-            self.x = -self.width
+        if self.x > TILE_COUNT_X - 1:
+            self.x = 0
         elif self.x < 0:
-            self.x = WINDOW_WIDTH
-        elif self.y >= WINDOW_HEIGHT:
-            self.y = -self.width
+            self.x = TILE_COUNT_X - 1
+        elif self.y > TILE_COUNT_Y - 1:
+            self.y = 0
         elif self.y < 0:
-            self.y = WINDOW_HEIGHT
+            self.y = TILE_COUNT_Y - 1
 
     def incrementLength(self):
         self.length += 1

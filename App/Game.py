@@ -38,14 +38,14 @@ class Game:
             'styles': [
                 {
                     'bg-color': COLOR_MIDNIGHT_BLUE,
-                    'snake-head': lambda snake, x, y: self.pygame.draw.rect(self.display, SNAKE_HEAD_COLOR, [x, y, snake.width, snake.width]),
-                    'snake-body': lambda snake, x, y: self.pygame.draw.rect(self.display, SNAKE_HEAD_COLOR, [x, y, snake.width, snake.width]),
-                    'apple': lambda x, y: self.pygame.draw.rect(self.display, APPLE_COLOR, [x, y, APPLE_SIZE, APPLE_SIZE])
+                    'snake-head': lambda snake, x, y: self.pygame.draw.rect(self.display, SNAKE_HEAD_COLOR, [x + 1, y + 1, snake.width - 2, snake.width - 2]),
+                    'snake-body': lambda snake, x, y: self.pygame.draw.rect(self.display, SNAKE_HEAD_COLOR, [x + 1, y + 1, snake.width - 2, snake.width - 2]),
+                    'apple': lambda x, y: self.pygame.draw.rect(self.display, APPLE_COLOR, [x + 1, y + 1, GRID_SIZE - 2, GRID_SIZE - 2])
                 }, {
-                    'bg-color': COLOR_NEPHRITIS,
+                    'bg-color': COLOR_GREEN_SEA,
                     'snake-head': lambda snake, x, y: self.display.blit(self.pygame.transform.rotate(self.images['snake-head'], 90 * snake.direction), (x, y)),
                     'snake-body': lambda snake, x, y: self.display.blit(self.images['snake-body'], (x, y)),
-                    'apple': lambda x, y: self.display.blit(self.pygame.transform.scale(self.images['apple'], (APPLE_SIZE, APPLE_SIZE)), (x, y))
+                    'apple': lambda x, y: self.display.blit(self.pygame.transform.scale(self.images['apple'], (GRID_SIZE, GRID_SIZE)), (x, y))
                 }
             ]
         }
@@ -88,11 +88,9 @@ class Game:
         self.pygame.display.update()
 
     def generateNewApple(self):
-        x = round(random.randrange(0, WINDOW_WIDTH - APPLE_SIZE) / 10.0) * 10.0
-        x = x - (x % GRID_SIZE)
-        y = round(random.randrange(0, WINDOW_HEIGHT - APPLE_SIZE) / 10.0) * 10.0
-        y = y - (y % GRID_SIZE)
-        apple = Apple(x, y, APPLE_SIZE)
+        x = random.randrange(0, TILE_COUNT_X)
+        y = random.randrange(0, TILE_COUNT_Y)
+        apple = Apple(x, y, GRID_SIZE)
 
         if self.handler.doesAppleOverlapSnake(apple, self.snake):
             self.generateNewApple()
@@ -132,8 +130,9 @@ class Game:
 
             if self.handler.didSnakeGoOffScreen(self.snake):
                 self.snake.loopBack()
+            else:
+                self.snake.moveHead(self.snake.xVelocity, self.snake.yVelocity)
 
-            self.snake.moveHead(self.snake.xVelocity, self.snake.yVelocity)
             self.snake.createTail()
 
             self.screen.initBackground()

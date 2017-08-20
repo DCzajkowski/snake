@@ -7,13 +7,13 @@ class Illustrator:
         self.game = game
 
     def snake(self, snake):
-        self.game.currentStyle('snake-head')(snake, snake.tail[-1][0], snake.tail[-1][1])
+        self.game.currentStyle('snake-head')(snake, snake.tail[-1][0] * GRID_SIZE, snake.tail[-1][1] * GRID_SIZE)
 
         for segment in snake.tail[:-1]:
-            self.game.currentStyle('snake-body')(snake, segment[0], segment[1])
+            self.game.currentStyle('snake-body')(snake, segment[0] * GRID_SIZE, segment[1] * GRID_SIZE)
 
     def apple(self, x, y):
-        self.game.currentStyle('apple')(x, y)
+        self.game.currentStyle('apple')(x * GRID_SIZE, y * GRID_SIZE)
 
     def grid(self):
         for i in range(0, WINDOW_WIDTH, GRID_SIZE):

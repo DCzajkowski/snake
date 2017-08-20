@@ -22,18 +22,14 @@ class Handler:
         elif key == K_DOWN:
             self.game.snake.turnDown()
 
+    def didSnakeGoOffScreen(self, snake):
+        return (snake.x > TILE_COUNT_X - 1
+            or snake.x < 0
+            or snake.y > TILE_COUNT_Y - 1
+            or snake.y < 0)
+
     def didSnakeCollideWithAnApple(self, snake, apple):
-        return (
-            (
-                (snake.x > apple.x and snake.x < apple.x + apple.size)
-                or (snake.x + snake.width > apple.x and snake.x + snake.width < apple.x + apple.size)
-                or (snake.x == apple.x)
-            ) and (
-                (snake.y > apple.y and snake.y < apple.y + apple.size)
-                or (snake.y + snake.width > apple.y and snake.y + snake.width < apple.y + apple.size)
-                or (snake.y == apple.y)
-            )
-        )
+        return snake.x == apple.x and snake.y == apple.y
 
     def didSnakeCollideWithItself(self, snake):
         for segment in snake.tail[:-1]:
@@ -41,24 +37,8 @@ class Handler:
                 return True
         return False
 
-    def didSnakeGoOffScreen(self, snake):
-        return (snake.x >= WINDOW_WIDTH
-            or snake.x < 0
-            or snake.y >= WINDOW_HEIGHT
-            or snake.y < 0)
-
     def doesAppleOverlapSnake(self, apple, snake):
         for segment in snake.tail[:-1]:
-            if (
-                (
-                    (segment[0] > apple.x and segment[0] < apple.x + apple.size)
-                    or (segment[0] + snake.width > apple.x and segment[0] + snake.width < apple.x + apple.size)
-                    or (segment[0] == apple.x)
-                ) and (
-                    (segment[1] > apple.y and segment[1] < apple.y + apple.size)
-                    or (segment[1] + snake.width > apple.y and segment[1] + snake.width < apple.y + apple.size)
-                    or (segment[1] == apple.y)
-                )
-            ):
+            if segment[0] == apple.x and segment[1] == apple.y:
                 return True
         return False

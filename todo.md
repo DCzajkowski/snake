@@ -1,0 +1,11 @@
+- [] Remember the high score
+- [] Show main menu with options:
+    - Enter your name
+    - Play
+    - Settings
+    - Leaderboard -- remembers by name highest scores
+    - Exit
+- [] Show current Highscore in main menu
+- [] Show highscore on game screen
+- [] Add power-ups (slower, faster, more apples)
+- [] Handle grid: 30

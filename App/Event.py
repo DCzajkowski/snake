@@ -35,6 +35,8 @@ class Event:
                     self.game.debug = False
                 if key == K_g:
                     self.game.toggleGrid()
+                if key == K_t:
+                    self.game.toggleStyle()
             else:
                 if key == K_d:
                     self.game.debug = True

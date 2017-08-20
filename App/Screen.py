@@ -16,4 +16,4 @@ class Screen:
         self.game.pygame.display.update()
 
     def initBackground(self):
-        self.game.display.fill(BG_COLOR)
+        self.game.display.fill(self.game.currentStyle('bg-color'))

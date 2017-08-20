@@ -7,11 +7,13 @@ class Illustrator:
         self.game = game
 
     def snake(self, snake):
-        for segment in snake.tail:
-            self.game.pygame.draw.rect(self.game.display, SNAKE_HEAD_COLOR, [segment[0], segment[1], snake.width, snake.width])
+        self.game.currentStyle('snake-head')(snake, snake.tail[-1][0], snake.tail[-1][1])
+
+        for segment in snake.tail[:-1]:
+            self.game.currentStyle('snake-body')(snake, segment[0], segment[1])
 
     def apple(self, x, y):
-        self.game.pygame.draw.rect(self.game.display, APPLE_COLOR, [x, y, APPLE_SIZE, APPLE_SIZE])
+        self.game.currentStyle('apple')(x, y)
 
     def grid(self):
         for i in range(0, WINDOW_WIDTH, GRID_SIZE):

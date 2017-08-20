@@ -9,6 +9,7 @@ class Snake:
     speed = 0
     tail = []
     length = 1
+    direction = 0
 
     def __init__(self, width = SNAKE_WIDTH, headX = None, headY = None):
         self.width = width
@@ -34,18 +35,23 @@ class Snake:
         self.tail = []
         self.length = 1
         self.speed = self.width
+        self.direction = 0
 
     def turnLeft(self):
         self.setHeadChange(-self.speed, 0)
+        self.direction = 3
 
     def turnRight(self):
         self.setHeadChange(self.speed, 0)
+        self.direction = 1
 
     def turnUp(self):
         self.setHeadChange(0, -self.speed)
+        self.direction = 2
 
     def turnDown(self):
         self.setHeadChange(0, self.speed)
+        self.direction = 0
 
     def loopBack(self):
         if self.headX >= WINDOW_WIDTH:

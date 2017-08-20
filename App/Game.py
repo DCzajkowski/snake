@@ -17,6 +17,8 @@ class Game:
     apple = None
     debug = False
     showGrid = False
+    images = None
+    config = None
 
     def __init__(self, pygame, snake, display = None, clock = None, handler = None, width = 800, height = 600):
         self.pygame = pygame
@@ -26,7 +28,31 @@ class Game:
         self.handler = handler if handler is not None else Handler(self)
 
         self.pygame.display.set_caption('The Snake Game')
+        self.images = {
+            'snake-head': self.pygame.image.load('/Users/Darek/Desktop/dc-snake/assets/snake_head.png'),
+            'snake-body': self.pygame.image.load('/Users/Darek/Desktop/dc-snake/assets/snake_body.png'),
+            'apple': self.pygame.image.load('/Users/Darek/Desktop/dc-snake/assets/apple.png')
+        }
+        self.config = {
+            'style': 0,
+            'styles': [
+                {
+                    'bg-color': COLOR_MIDNIGHT_BLUE,
+                    'snake-head': lambda snake, x, y: self.pygame.draw.rect(self.display, SNAKE_HEAD_COLOR, [x, y, snake.width, snake.width]),
+                    'snake-body': lambda snake, x, y: self.pygame.draw.rect(self.display, SNAKE_HEAD_COLOR, [x, y, snake.width, snake.width]),
+                    'apple': lambda x, y: self.pygame.draw.rect(self.display, APPLE_COLOR, [x, y, APPLE_SIZE, APPLE_SIZE])
+                }, {
+                    'bg-color': COLOR_NEPHRITIS,
+                    'snake-head': lambda snake, x, y: self.display.blit(self.pygame.transform.rotate(self.images['snake-head'], 90 * snake.direction), (x, y)),
+                    'snake-body': lambda snake, x, y: self.display.blit(self.images['snake-body'], (x, y)),
+                    'apple': lambda x, y: self.display.blit(self.pygame.transform.scale(self.images['apple'], (APPLE_SIZE, APPLE_SIZE)), (x, y))
+                }
+            ]
+        }
         self.screen = Screen(self)
+
+    def currentStyle(self, el):
+        return self.config['styles'][self.config['style']][el]
 
     def font(self, size):
         return self.pygame.font.SysFont(None, size)
@@ -78,6 +104,12 @@ class Game:
 
     def toggleGrid(self):
         self.showGrid = not self.showGrid
+
+    def toggleStyle(self):
+        if self.config['style'] + 1 < len(self.config['styles']):
+            self.config['style'] += 1
+        else:
+            self.config['style'] = 0
 
     def run(self):
         self.generateNewApple()

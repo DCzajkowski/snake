@@ -133,7 +133,7 @@ class Game:
             if self.handler.didSnakeGoOffScreen(self.snake):
                 self.snake.loopBack()
 
-            self.snake.moveHead(self.snake.headXChange, self.snake.headYChange)
+            self.snake.moveHead(self.snake.xVelocity, self.snake.yVelocity)
             self.snake.createTail()
 
             self.screen.initBackground()

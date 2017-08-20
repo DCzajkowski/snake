@@ -25,27 +25,27 @@ class Handler:
     def didSnakeCollideWithAnApple(self, snake, apple):
         return (
             (
-                (snake.headX > apple.x and snake.headX < apple.x + apple.size)
-                or (snake.headX + snake.width > apple.x and snake.headX + snake.width < apple.x + apple.size)
-                or (snake.headX == apple.x)
+                (snake.x > apple.x and snake.x < apple.x + apple.size)
+                or (snake.x + snake.width > apple.x and snake.x + snake.width < apple.x + apple.size)
+                or (snake.x == apple.x)
             ) and (
-                (snake.headY > apple.y and snake.headY < apple.y + apple.size)
-                or (snake.headY + snake.width > apple.y and snake.headY + snake.width < apple.y + apple.size)
-                or (snake.headY == apple.y)
+                (snake.y > apple.y and snake.y < apple.y + apple.size)
+                or (snake.y + snake.width > apple.y and snake.y + snake.width < apple.y + apple.size)
+                or (snake.y == apple.y)
             )
         )
 
     def didSnakeCollideWithItself(self, snake):
         for segment in snake.tail[:-1]:
-            if segment[0] == snake.headX and segment[1] == snake.headY:
+            if segment[0] == snake.x and segment[1] == snake.y:
                 return True
         return False
 
     def didSnakeGoOffScreen(self, snake):
-        return (snake.headX >= WINDOW_WIDTH
-            or snake.headX < 0
-            or snake.headY >= WINDOW_HEIGHT
-            or snake.headY < 0)
+        return (snake.x >= WINDOW_WIDTH
+            or snake.x < 0
+            or snake.y >= WINDOW_HEIGHT
+            or snake.y < 0)
 
     def doesAppleOverlapSnake(self, apple, snake):
         for segment in snake.tail[:-1]:

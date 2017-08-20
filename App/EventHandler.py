@@ -22,7 +22,7 @@ class EventHandler:
 
         if scene == GAME_SCENE:
             if key in [K_LEFT, K_RIGHT, K_UP, K_DOWN]:
-                self.game.moveSnake(key)
+                self.moveSnake(key)
             if key == K_ESCAPE:
                 self.game.pause()
             if self.game.inDebugMode():
@@ -52,6 +52,20 @@ class EventHandler:
             if key == K_SPACE:
                 self.game.reset()
                 self.game.run()
+
+    def moveSnake(self, key):
+        if self.snake.direction != 1:
+            if key == K_LEFT:
+                self.snake.turnLeft()
+        if self.snake.direction != 3:
+            if key == K_RIGHT:
+                self.snake.turnRight()
+        if self.snake.direction != 0:
+            if key == K_UP:
+                self.snake.turnUp()
+        if self.snake.direction != 2:
+            if key == K_DOWN:
+                self.snake.turnDown()
 
     # ---
     # Modifiers

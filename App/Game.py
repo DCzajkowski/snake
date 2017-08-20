@@ -16,12 +16,13 @@ class Game:
     config = None
     highscore = None
     scene = GAME_SCENE
+    screen = None
 
-    def __init__(self, pygame, snake, highscore = None, display = None, clock = None, width = 800, height = 600):
+    def __init__(self, pygame, snake, highscore = None, width = 800, height = 600):
         self.pygame = pygame
         self.snake = snake
-        self.display = display if display is not None else pygame.display.set_mode((width, height))
-        self.clock = clock if clock is not None else pygame.time.Clock()
+        self.display = pygame.display.set_mode((width, height))
+        self.clock = pygame.time.Clock()
         self.highscore = highscore if highscore is not None else 0
 
         self.pygame.display.set_caption('The Snake Game')
@@ -176,20 +177,6 @@ class Game:
         self.pygame.quit()
         quit()
 
-    def moveSnake(self, key):
-        if self.snake.direction != 1:
-            if key == K_LEFT:
-                self.snake.turnLeft()
-        if self.snake.direction != 3:
-            if key == K_RIGHT:
-                self.snake.turnRight()
-        if self.snake.direction != 0:
-            if key == K_UP:
-                self.snake.turnUp()
-        if self.snake.direction != 2:
-            if key == K_DOWN:
-                self.snake.turnDown()
-
     def didSnakeGoOffScreen(self, snake):
         return (snake.x > TILE_COUNT_X - 1
             or snake.x < 0
@@ -220,22 +207,22 @@ class Game:
         span = self.font(25).render(span, True, spanColor)
         self.display.blit(header, [WINDOW_WIDTH / 2 - header.get_rect().width / 2, WINDOW_HEIGHT / 2 - 15])
         self.display.blit(span, [WINDOW_WIDTH / 2 - span.get_rect().width / 2, WINDOW_HEIGHT / 2 + 15])
-        self.pygame.display.update()
+        self.screen.update()
 
     def showDebugMessage(self):
         debugMessage = self.font(15).render('In Debug Mode', True, COLOR_CLOUDS)
         self.display.blit(debugMessage, [WINDOW_WIDTH - debugMessage.get_rect().width, WINDOW_HEIGHT - debugMessage.get_rect().height])
-        self.pygame.display.update()
+        self.screen.update()
 
     def showScore(self, score):
         debugMessage = self.font(20).render('Current length: ' + str(score), True, COLOR_CLOUDS)
         self.display.blit(debugMessage, [10, 10])
-        self.pygame.display.update()
+        self.screen.update()
 
     def showHighScore(self, score):
         highscoreMessage = self.font(20).render('Highscore: ' + str(score), True, COLOR_CLOUDS)
         self.display.blit(highscoreMessage, [WINDOW_WIDTH - highscoreMessage.get_rect().width - 10, 10])
-        self.pygame.display.update()
+        self.screen.update()
 
     def updateHighscore(self):
         if self.snake.length > self.highscore:

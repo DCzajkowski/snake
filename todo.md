@@ -9,3 +9,4 @@
 - [] Show highscore on game screen
 - [] Add power-ups (slower, faster, more apples)
 - [] Handle grid: 30
+- [] Block button when in orientation

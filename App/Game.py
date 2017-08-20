@@ -18,6 +18,7 @@ class Game:
     images = None
     config = None
     highscore = None
+    paused = False
 
     def __init__(self, pygame, snake, highscore = None, display = None, clock = None, handler = None, width = 800, height = 600):
         self.pygame = pygame
@@ -54,6 +55,16 @@ class Game:
             ]
         }
         self.screen = Screen(self)
+
+    def pause(self):
+        self.paused = True
+
+    def unpause(self):
+        self.paused = False
+
+    def showPauseScreen(self):
+        self.display.fill(COLOR_ASBESTOS)
+        self.message('Paused', 'Press ESC or space bar to continue... Q quits the game.', COLOR_CLOUDS, COLOR_CLOUDS)
 
     def currentStyle(self, el):
         return self.config['styles'][self.config['style']][el]
@@ -136,13 +147,16 @@ class Game:
             if self.gameOver:
                 scene = GAME_OVER_SCENE
                 self.showGameOverScreen()
+            elif self.paused:
+                scene = PAUSE_SCENE
+                self.showPauseScreen()
             else:
                 scene = GAME_SCENE
 
             for event in self.pygame.event.get():
                 Event(self, event).handle(scene)
 
-            if not self.gameOver:
+            if not self.gameOver and not self.paused:
                 if self.handler.didSnakeGoOffScreen(self.snake):
                     self.snake.loopBack()
                 else:

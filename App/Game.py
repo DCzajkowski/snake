@@ -13,12 +13,11 @@ class Game:
     display = None
     snake = None
     clock = None
-    gameOver = False
     apple = None
     images = None
     config = None
     highscore = None
-    paused = False
+    scene = GAME_SCENE
 
     def __init__(self, pygame, snake, highscore = None, display = None, clock = None, handler = None, width = 800, height = 600):
         self.pygame = pygame
@@ -57,10 +56,10 @@ class Game:
         self.screen = Screen(self)
 
     def pause(self):
-        self.paused = True
+        self.scene = PAUSE_SCENE
 
     def unpause(self):
-        self.paused = False
+        self.scene = GAME_SCENE
 
     def showPauseScreen(self):
         self.display.fill(COLOR_ASBESTOS)
@@ -80,13 +79,13 @@ class Game:
         self.pygame.display.update()
 
     def reset(self):
-        self.gameOver = False
+        self.scene = GAME_SCENE
         self.setDebug(False)
         self.snake.reset()
         self.generateNewApple()
 
     def end(self):
-        self.gameOver = True
+        self.scene = GAME_OVER_SCENE
 
     def updateHighscore(self):
         if self.snake.length > self.highscore:
@@ -144,19 +143,14 @@ class Game:
         self.generateNewApple()
 
         while True:
-            if self.gameOver:
-                scene = GAME_OVER_SCENE
-                self.showGameOverScreen()
-            elif self.paused:
-                scene = PAUSE_SCENE
-                self.showPauseScreen()
-            else:
-                scene = GAME_SCENE
-
             for event in self.pygame.event.get():
-                Event(self, event).handle(scene)
+                Event(self, event).handle(self.scene)
 
-            if not self.gameOver and not self.paused:
+            if self.scene == GAME_OVER_SCENE:
+                self.showGameOverScreen()
+            elif self.scene == PAUSE_SCENE:
+                self.showPauseScreen()
+            elif self.scene == GAME_SCENE:
                 if self.handler.didSnakeGoOffScreen(self.snake):
                     self.snake.loopBack()
                 else:

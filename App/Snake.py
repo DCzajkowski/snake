@@ -39,20 +39,24 @@ class Snake:
         self.direction = None
 
     def turnLeft(self):
-        self.setHeadChange(-1, 0)
-        self.direction = 3
+        if self.direction != 1:
+            self.setHeadChange(-1, 0)
+            self.direction = 3
 
     def turnRight(self):
-        self.setHeadChange(1, 0)
-        self.direction = 1
+        if self.direction != 3:
+            self.setHeadChange(1, 0)
+            self.direction = 1
 
     def turnUp(self):
-        self.setHeadChange(0, -1)
-        self.direction = 2
+        if self.direction != 0:
+            self.setHeadChange(0, -1)
+            self.direction = 2
 
     def turnDown(self):
-        self.setHeadChange(0, 1)
-        self.direction = 0
+        if self.direction != 2:
+            self.setHeadChange(0, 1)
+            self.direction = 0
 
     def loopBack(self):
         if self.x > TILE_COUNT_X - 1:

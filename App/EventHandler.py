@@ -21,7 +21,7 @@ class EventHandler:
                 self.game.quit()
 
         if scene == GAME_SCENE:
-            if key in [K_LEFT, K_RIGHT, K_UP, K_DOWN]:
+            if key in [K_LEFT, K_RIGHT, K_UP, K_DOWN, K_w, K_s, K_a, K_d]:
                 self.moveSnake(key)
             if key == K_ESCAPE:
                 self.game.pause()
@@ -30,14 +30,14 @@ class EventHandler:
                     self.game.end()
                 if key == K_i:
                     self.game.snake.incrementLength()
-                if key == K_d:
+                if self.cmdPressed(modifier) and key == K_d:
                     self.game.setDebug(False)
                 if key == K_g:
                     self.game.toggleGrid()
                 if key == K_t:
                     self.game.toggleStyle()
             else:
-                if key == K_d:
+                if self.cmdPressed(modifier) and key == K_d:
                     self.game.setDebug(True)
         elif scene == PAUSE_SCENE:
             if key == K_ESCAPE:
@@ -61,16 +61,16 @@ class EventHandler:
 
     def moveSnake(self, key):
         if self.game.snake.direction != 1:
-            if key == K_LEFT:
+            if key == K_LEFT or key == K_a:
                 self.game.snake.turnLeft()
         if self.game.snake.direction != 3:
-            if key == K_RIGHT:
+            if key == K_RIGHT or key == K_d:
                 self.game.snake.turnRight()
         if self.game.snake.direction != 0:
-            if key == K_UP:
+            if key == K_UP or key == K_w:
                 self.game.snake.turnUp()
         if self.game.snake.direction != 2:
-            if key == K_DOWN:
+            if key == K_DOWN or key == K_s:
                 self.game.snake.turnDown()
 
     # ---

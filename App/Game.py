@@ -183,6 +183,9 @@ class Game:
     def setDebug(self, value):
         self.config['debug'] = value
 
+    def toggleDebug(self):
+        self.config['debug'] = not self.config['debug']
+
     def currentStyle(self, el):
         return self.config['styles'][self.config['style']][el]
 

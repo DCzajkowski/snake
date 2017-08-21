@@ -16,8 +16,7 @@ class EventHandler:
             self.keyPressed(self.event.key, self.event.mod, scene)
 
     def keyPressed(self, key, modifier, scene):
-        if self.cmdPressed(modifier):
-            if key == K_w:
+        if self.cmdPressed(modifier) and key == K_w:
                 self.game.quit()
 
         if scene == GAME_SCENE:
@@ -25,20 +24,17 @@ class EventHandler:
                 self.moveSnake(key)
             if key == K_ESCAPE:
                 self.game.pause()
+            if self.cmdPressed(modifier) and key == K_d:
+                self.game.toggleDebug()
             if self.game.inDebugMode():
                 if key == K_e:
                     self.game.end()
                 if key == K_i:
                     self.game.snake.incrementLength()
-                if self.cmdPressed(modifier) and key == K_d:
-                    self.game.setDebug(False)
                 if key == K_g:
                     self.game.toggleGrid()
                 if key == K_t:
                     self.game.toggleStyle()
-            else:
-                if self.cmdPressed(modifier) and key == K_d:
-                    self.game.setDebug(True)
         elif scene == PAUSE_SCENE:
             if key == K_ESCAPE:
                 self.game.unpause()
@@ -61,16 +57,16 @@ class EventHandler:
 
     def moveSnake(self, key):
         if self.game.snake.direction != 1:
-            if key == K_LEFT or key == K_a:
+            if key in [K_LEFT, K_a]:
                 self.game.snake.turnLeft()
         if self.game.snake.direction != 3:
-            if key == K_RIGHT or key == K_d:
+            if key in [K_RIGHT, K_d]:
                 self.game.snake.turnRight()
         if self.game.snake.direction != 0:
-            if key == K_UP or key == K_w:
+            if key in [K_UP, K_w]:
                 self.game.snake.turnUp()
         if self.game.snake.direction != 2:
-            if key == K_DOWN or key == K_s:
+            if key in [K_DOWN, K_s]:
                 self.game.snake.turnDown()
 
     # ---

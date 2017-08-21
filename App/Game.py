@@ -269,7 +269,6 @@ class Game:
         return False
 
     def didSnakesCollideHeadOn(self, snakes):
-        print('0 = (' + str(snakes[0].x) + ', ' + str(snakes[0].y) + '); 1 = (' + str(snakes[1].x) + ', ' + str(snakes[1].y) + ')')
         if len(snakes) == 2: # Handle two for now, then @todo
             if snakes[0].x == snakes[1].x and snakes[0].y == snakes[1].y:
                 return True

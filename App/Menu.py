@@ -3,7 +3,7 @@ from config import *
 class Menu:
     game = None
     position = 0
-    elements = ['Start Game', 'Settings', 'Exit']
+    elements = ['Single Player', 'Two Players', 'Settings', 'Exit']
 
     def __init__(self, game):
         self.game = game
@@ -22,11 +22,12 @@ class Menu:
 
     def enter(self):
         if self.position == 0:
-            self.game.reset()
-            self.game.play()
-        elif self.position == 1:
-            self.game.scene == SETTINGS_SCENE
+            self.game.play(1)
+        if self.position == 1:
+            self.game.play(2)
         elif self.position == 2:
+            self.game.scene == SETTINGS_SCENE
+        elif self.position == 3:
             self.game.quit()
 
     def display(self):

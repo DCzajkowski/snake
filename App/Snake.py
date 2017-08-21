@@ -11,11 +11,13 @@ class Snake:
     tail = []
     length = 1
     direction = None
+    name = None
 
-    def __init__(self, width = GRID_SIZE, x = None, y = None):
+    def __init__(self, width = GRID_SIZE, x = None, y = None, name = None):
         self.width = width
         self.initX = x if x is not None else (round(TILE_COUNT_X / 2) - 1)
         self.initY = y if y is not None else (round(TILE_COUNT_Y / 2) - 1)
+        self.name = name
 
     def moveHead(self, x, y):
         self.x += x

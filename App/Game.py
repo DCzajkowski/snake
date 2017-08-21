@@ -20,10 +20,10 @@ class Game:
     scene = MENU_SCENE
     screen = None
     menu = None
+    whoWon = None
 
     def __init__(self, pygame, highscore = None, width = 800, height = 600):
         self.pygame = pygame
-        self.snakes = [Snake(x = 0, y = 0), Snake(x = TILE_COUNT_X - 1, y = TILE_COUNT_Y - 1)]
         self.display = pygame.display.set_mode((width, height))
         self.clock = pygame.time.Clock()
         self.highscore = highscore if highscore is not None else 0
@@ -58,8 +58,6 @@ class Game:
         self.screen = Screen(self)
 
     def run(self):
-        self.generateNewApple()
-
         while True:
             for event in self.pygame.event.get():
                 EventHandler(self, event).handle(self.scene)
@@ -76,7 +74,7 @@ class Game:
                 self.showPauseScene()
             elif self.scene == SETTINGS_SCENE:
                 self.showSettingsScene()
-            elif self.scene == GAME_SCENE:
+            elif self.scene == GAME_SCENE or self.scene == MULTIPLAYER_GAME_SCENE:
                 self.showGameScene()
 
     # ---
@@ -101,8 +99,13 @@ class Game:
 
     def showGameOverScene(self):
         self.display.fill(COLOR_EMERALD)
-        # self.message('Game Over (Your Score: ' + str(self.snake.length) + ')', 'Press ESC to quit or space bar to continue...', COLOR_CLOUDS, COLOR_CLOUDS)
-        self.message('Game Over', 'Press ESC to quit or space bar to continue...', COLOR_CLOUDS, COLOR_CLOUDS)
+        if self.inSingleplayerMode():
+            self.message('Game Over (Your Score: ' + str(self.snakes[0].length) + ')', 'Press ESC to quit or space bar to continue...', COLOR_CLOUDS, COLOR_CLOUDS)
+        elif self.inMultiplayerMode():
+            if self.whoWon is None:
+                self.message('Game Over. Noone wins.', 'Press ESC to quit or space bar to continue...', COLOR_CLOUDS, COLOR_CLOUDS)
+            else:
+                self.message('Game Over. ' + self.whoWon + ' wins.', 'Press ESC to quit or space bar to continue...', COLOR_CLOUDS, COLOR_CLOUDS)
 
     def showGameScene(self):
         for snake in self.snakes:
@@ -124,21 +127,35 @@ class Game:
                 self.removeApple()
                 self.generateNewApple()
                 snake.incrementLength()
-                self.updateHighscore()
+                if self.scene == GAME_SCENE:
+                    self.updateHighscore()
 
         if self.inDebugMode():
             if self.config['showGrid']:
                 self.screen.draw().grid()
             self.showDebugMessage()
 
-        # self.showScore(self.snake.length)
-        self.showHighScore(self.highscore)
+        if self.scene == GAME_SCENE:
+            self.showScore(self.snakes[0].length)
+            self.showHighScore(self.highscore)
 
         for snake in self.snakes:
             if self.didSnakeCollideWithItself(snake):
                 self.end()
 
-            if self.didSnakeCollideWithOtherSnake(self.snakes):
+        if self.scene == MULTIPLAYER_GAME_SCENE:
+            if self.didSnakesCollideHeadOn(self.snakes):
+                self.whoWon = None
+                self.end()
+            elif (self.didSnakeCollideWithOtherSnakesTail(self.snakes[0], self.snakes[1])
+                and self.didSnakeCollideWithOtherSnakesTail(self.snakes[1], self.snakes[0])):
+                self.whoWon = None
+                self.end()
+            elif self.didSnakeCollideWithOtherSnakesTail(self.snakes[0], self.snakes[1]):
+                self.whoWon = self.snakes[1].name
+                self.end()
+            elif self.didSnakeCollideWithOtherSnakesTail(self.snakes[1], self.snakes[0]):
+                self.whoWon = self.snakes[0].name
                 self.end()
 
         self.clock.tick(FRAMERATE)
@@ -151,13 +168,25 @@ class Game:
         self.scene = PAUSE_SCENE
 
     def unpause(self):
-        self.scene = GAME_SCENE
+        if self.inSingleplayerMode():
+            self.scene = GAME_SCENE
+        elif self.inMultiplayerMode():
+            self.scene = MULTIPLAYER_GAME_SCENE
 
-    def play(self):
-        self.scene = GAME_SCENE
+    def play(self, players):
+        if players == 1:
+            self.snakes = [Snake(x = (round(TILE_COUNT_X / 2) - 1), y = (round(TILE_COUNT_Y / 2) - 1))]
+            self.reset()
+            self.scene = GAME_SCENE
+        elif players == 2:
+            self.snakes = [Snake(x = 0, y = 0, name = 'Player 1'), Snake(x = TILE_COUNT_X - 1, y = TILE_COUNT_Y - 1, name = 'Player 2')]
+            self.reset()
+            self.scene = MULTIPLAYER_GAME_SCENE
+        else:
+            raise Exception('No handling for more than two players, yet.')
 
     def reset(self):
-        self.scene = GAME_SCENE
+        self.whoWon = None
         self.setDebug(False)
         for snake in self.snakes:
             snake.reset()
@@ -204,6 +233,12 @@ class Game:
     def font(self, size):
         return self.pygame.font.SysFont(None, size)
 
+    def inSingleplayerMode(self):
+        return len(self.snakes) == 1
+
+    def inMultiplayerMode(self):
+        return len(self.snakes) > 1
+
     # ---
     # Actions
     # ---
@@ -227,12 +262,18 @@ class Game:
                 return True
         return False
 
-    def didSnakeCollideWithOtherSnake(self, snakes):
+    def didSnakeCollideWithOtherSnakesTail(self, snake1, snake2):
+        for segment in snake2.tail[:-1]:
+            if segment[0] == snake1.x and segment[1] == snake1.y:
+                return True
+        return False
+
+    def didSnakesCollideHeadOn(self, snakes):
+        print('0 = (' + str(snakes[0].x) + ', ' + str(snakes[0].y) + '); 1 = (' + str(snakes[1].x) + ', ' + str(snakes[1].y) + ')')
         if len(snakes) == 2: # Handle two for now, then @todo
-            for segment in snakes[0].tail:
-                if segment[0] == snakes[1].x and segment[1] == snakes[1].y:
-                    return True
-            return False
+            if snakes[0].x == snakes[1].x and snakes[0].y == snakes[1].y:
+                return True
+        return False
 
     def doesAppleOverlapSnake(self, apple, snake):
         for segment in snake.tail[:-1]:
@@ -257,10 +298,9 @@ class Game:
         self.screen.update()
 
     def showScore(self, score):
-        pass
-        # debugMessage = self.font(20).render('Current length: ' + str(score), True, COLOR_CLOUDS)
-        # self.display.blit(debugMessage, [10, 10])
-        # self.screen.update()
+        scoreMessage = self.font(20).render('Current length: ' + str(score), True, COLOR_CLOUDS)
+        self.display.blit(scoreMessage, [10, 10])
+        self.screen.update()
 
     def showHighScore(self, score):
         highscoreMessage = self.font(20).render('Highscore: ' + str(score), True, COLOR_CLOUDS)
@@ -268,7 +308,6 @@ class Game:
         self.screen.update()
 
     def updateHighscore(self):
-        pass
-        # if self.snake.length > self.highscore:
-        #     self.highscore = self.snake.length
-        # open('db.txt', 'w').write('highscore=' + str(self.highscore))
+        if self.snakes[0].length > self.highscore:
+            self.highscore = self.snakes[0].length
+        open('db.txt', 'w').write('highscore=' + str(self.highscore))

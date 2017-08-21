@@ -4,6 +4,8 @@ class Snake:
     width = 0
     x = 0
     y = 0
+    initX = None
+    initY = None
     xVelocity = 0
     yVelocity = 0
     tail = []
@@ -12,8 +14,8 @@ class Snake:
 
     def __init__(self, width = GRID_SIZE, x = None, y = None):
         self.width = width
-        self.x = x if x is not None else (round(TILE_COUNT_X / 2) - 1)
-        self.y = y if y is not None else (round(TILE_COUNT_Y / 2) - 1)
+        self.initX = x if x is not None else (round(TILE_COUNT_X / 2) - 1)
+        self.initY = y if y is not None else (round(TILE_COUNT_Y / 2) - 1)
 
     def moveHead(self, x, y):
         self.x += x
@@ -26,8 +28,8 @@ class Snake:
             self.yVelocity = y
 
     def reset(self):
-        self.x = (round(TILE_COUNT_X / 2) - 1)
-        self.y = (round(TILE_COUNT_Y / 2) - 1)
+        self.x = self.initX
+        self.y = self.initY
         self.xVelocity = 0
         self.yVelocity = 0
         self.tail = []

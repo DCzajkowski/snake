@@ -2,6 +2,7 @@ from config import *
 from App.EventHandler import EventHandler
 from App.Screen import Screen
 from App.Apple import Apple
+from App.Snake import Snake
 import time
 from pygame.locals import *
 import random
@@ -10,7 +11,7 @@ from App.Menu import Menu
 class Game:
     pygame = None
     display = None
-    snake = None
+    snakes = None
     clock = None
     apple = None
     images = None
@@ -20,9 +21,9 @@ class Game:
     screen = None
     menu = None
 
-    def __init__(self, pygame, snake, highscore = None, width = 800, height = 600):
+    def __init__(self, pygame, highscore = None, width = 800, height = 600):
         self.pygame = pygame
-        self.snake = snake
+        self.snakes = [Snake(x = 0, y = 0), Snake(x = TILE_COUNT_X - 1, y = TILE_COUNT_Y - 1)]
         self.display = pygame.display.set_mode((width, height))
         self.clock = pygame.time.Clock()
         self.highscore = highscore if highscore is not None else 0
@@ -63,8 +64,9 @@ class Game:
             for event in self.pygame.event.get():
                 EventHandler(self, event).handle(self.scene)
 
-                if event.type == KEYDOWN:
-                    break
+                # When handling two players at the time, I can't block their presses at the same time
+                # if event.type == KEYDOWN:
+                #     break
 
             if self.scene == GAME_OVER_SCENE:
                 self.showGameOverScene()
@@ -99,37 +101,45 @@ class Game:
 
     def showGameOverScene(self):
         self.display.fill(COLOR_EMERALD)
-        self.message('Game Over (Your Score: ' + str(self.snake.length) + ')', 'Press ESC to quit or space bar to continue...', COLOR_CLOUDS, COLOR_CLOUDS)
+        # self.message('Game Over (Your Score: ' + str(self.snake.length) + ')', 'Press ESC to quit or space bar to continue...', COLOR_CLOUDS, COLOR_CLOUDS)
+        self.message('Game Over', 'Press ESC to quit or space bar to continue...', COLOR_CLOUDS, COLOR_CLOUDS)
 
     def showGameScene(self):
-        if self.didSnakeGoOffScreen(self.snake):
-            self.snake.loopBack()
-        else:
-            self.snake.moveHead(self.snake.xVelocity, self.snake.yVelocity)
+        for snake in self.snakes:
+            if self.didSnakeGoOffScreen(snake):
+                snake.loopBack()
+            else:
+                snake.moveHead(snake.xVelocity, snake.yVelocity)
 
-        self.snake.createTail()
+            snake.createTail()
 
         self.screen.initBackground()
         self.screen.draw().apple(self.apple.x, self.apple.y)
-        self.screen.draw().snake(self.snake)
+        for snake in self.snakes:
+            self.screen.draw().snake(snake)
         self.screen.update()
 
-        if self.didSnakeCollideWithAnApple(self.snake, self.apple):
-            self.removeApple()
-            self.generateNewApple()
-            self.snake.incrementLength()
-            self.updateHighscore()
+        for snake in self.snakes:
+            if self.didSnakeCollideWithAnApple(snake, self.apple):
+                self.removeApple()
+                self.generateNewApple()
+                snake.incrementLength()
+                self.updateHighscore()
 
         if self.inDebugMode():
             if self.config['showGrid']:
                 self.screen.draw().grid()
             self.showDebugMessage()
 
-        self.showScore(self.snake.length)
+        # self.showScore(self.snake.length)
         self.showHighScore(self.highscore)
 
-        if self.didSnakeCollideWithItself(self.snake):
-            self.end()
+        for snake in self.snakes:
+            if self.didSnakeCollideWithItself(snake):
+                self.end()
+
+            if self.didSnakeCollideWithOtherSnake(self.snakes):
+                self.end()
 
         self.clock.tick(FRAMERATE)
 
@@ -149,7 +159,8 @@ class Game:
     def reset(self):
         self.scene = GAME_SCENE
         self.setDebug(False)
-        self.snake.reset()
+        for snake in self.snakes:
+            snake.reset()
         self.generateNewApple()
 
     def end(self):
@@ -160,10 +171,11 @@ class Game:
         y = random.randrange(0, TILE_COUNT_Y)
         apple = Apple(x, y, GRID_SIZE)
 
-        if self.doesAppleOverlapSnake(apple, self.snake):
-            self.generateNewApple()
-        else:
-            self.apple = apple
+        for snake in self.snakes:
+            if self.doesAppleOverlapSnake(apple, snake):
+                self.generateNewApple()
+            else:
+                self.apple = apple
 
     def removeApple(self):
         self.apple = None
@@ -215,6 +227,13 @@ class Game:
                 return True
         return False
 
+    def didSnakeCollideWithOtherSnake(self, snakes):
+        if len(snakes) == 2: # Handle two for now, then @todo
+            for segment in snakes[0].tail:
+                if segment[0] == snakes[1].x and segment[1] == snakes[1].y:
+                    return True
+            return False
+
     def doesAppleOverlapSnake(self, apple, snake):
         for segment in snake.tail[:-1]:
             if segment[0] == apple.x and segment[1] == apple.y:
@@ -238,9 +257,10 @@ class Game:
         self.screen.update()
 
     def showScore(self, score):
-        debugMessage = self.font(20).render('Current length: ' + str(score), True, COLOR_CLOUDS)
-        self.display.blit(debugMessage, [10, 10])
-        self.screen.update()
+        pass
+        # debugMessage = self.font(20).render('Current length: ' + str(score), True, COLOR_CLOUDS)
+        # self.display.blit(debugMessage, [10, 10])
+        # self.screen.update()
 
     def showHighScore(self, score):
         highscoreMessage = self.font(20).render('Highscore: ' + str(score), True, COLOR_CLOUDS)
@@ -248,6 +268,7 @@ class Game:
         self.screen.update()
 
     def updateHighscore(self):
-        if self.snake.length > self.highscore:
-            self.highscore = self.snake.length
-        open('db.txt', 'w').write('highscore=' + str(self.highscore))
+        pass
+        # if self.snake.length > self.highscore:
+        #     self.highscore = self.snake.length
+        # open('db.txt', 'w').write('highscore=' + str(self.highscore))

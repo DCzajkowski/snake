@@ -14,5 +14,5 @@ for line in db:
     if line[0] == 'highscore':
         highscore = line[1]
 
-game = Game(pygame, Snake(), highscore = int(highscore), width = WINDOW_WIDTH, height = WINDOW_HEIGHT)
+game = Game(pygame, highscore = int(highscore), width = WINDOW_WIDTH, height = WINDOW_HEIGHT)
 game.run()

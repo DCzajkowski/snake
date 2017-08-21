@@ -63,6 +63,9 @@ class Game:
             for event in self.pygame.event.get():
                 EventHandler(self, event).handle(self.scene)
 
+                if event.type == KEYDOWN:
+                    break
+
             if self.scene == GAME_OVER_SCENE:
                 self.showGameOverScene()
             elif self.scene == MENU_SCENE:

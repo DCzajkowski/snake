@@ -20,40 +20,60 @@ class EventHandler:
                 self.game.quit()
 
         if scene in [GAME_SCENE, MULTIPLAYER_GAME_SCENE]:
-            if key in [K_LEFT, K_RIGHT, K_UP, K_DOWN, K_w, K_s, K_a, K_d]:
-                self.moveSnake(key)
-            if key == K_ESCAPE:
-                self.game.pause()
-            if self.cmdPressed(modifier) and key == K_d:
-                self.game.toggleDebug()
-            if self.game.inDebugMode():
-                if key == K_e:
-                    self.game.end()
-                if key == K_i:
-                    self.game.snake.incrementLength()
-                if key == K_g:
-                    self.game.toggleGrid()
-                if key == K_t:
-                    self.game.toggleStyle()
+            self.handleGameScene(key, modifier)
         elif scene == PAUSE_SCENE:
-            if key == K_ESCAPE:
-                self.game.unpause()
-            if key in [K_SPACE, K_RETURN]:
-                self.game.unpause()
-            if key == K_q:
-                self.game.quit()
+            self.handlePauseScene(key, modifier)
         elif scene == MENU_SCENE:
-            if key == K_DOWN:
-                self.game.menu.down()
-            if key == K_UP:
-                self.game.menu.up()
-            if key in [K_RETURN, K_SPACE]:
-                self.game.menu.enter()
+            self.handleMenuScene(key, modifier)
         elif scene == GAME_OVER_SCENE:
-            if key == K_ESCAPE:
-                self.game.quit()
-            if key in [K_SPACE, K_RETURN]:
-                self.game.scene = MENU_SCENE
+            self.handleGameOverScene(key, modifier)
+
+    # ---
+    # Scenes
+    # ---
+
+    def handleGameScene(self, key, modifier):
+        if key in [K_LEFT, K_RIGHT, K_UP, K_DOWN, K_w, K_s, K_a, K_d]:
+            self.moveSnake(key)
+        if key == K_ESCAPE:
+            self.game.pause()
+        if self.cmdPressed(modifier) and key == K_d:
+            self.game.toggleDebug()
+        if self.game.inDebugMode():
+            if key == K_e:
+                self.game.end()
+            if key == K_i:
+                self.game.snake.incrementLength()
+            if key == K_g:
+                self.game.toggleGrid()
+            if key == K_t:
+                self.game.toggleStyle()
+
+    def handlePauseScene(self, key, modifier):
+        if key == K_ESCAPE:
+            self.game.unpause()
+        if key in [K_SPACE, K_RETURN]:
+            self.game.unpause()
+        if key == K_q:
+            self.game.quit()
+
+    def handleMenuScene(self, key, modifier):
+        if key == K_DOWN:
+            self.game.menu.down()
+        if key == K_UP:
+            self.game.menu.up()
+        if key in [K_RETURN, K_SPACE]:
+            self.game.menu.enter()
+
+    def handleGameOverScene(self, key, modifier):
+        if key == K_ESCAPE:
+            self.game.quit()
+        if key in [K_SPACE, K_RETURN]:
+            self.game.scene = MENU_SCENE
+
+    # ---
+    # Snake movement
+    # ---
 
     def moveSnake(self, key):
         if self.game.scene == GAME_SCENE:

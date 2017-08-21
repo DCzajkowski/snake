@@ -63,8 +63,8 @@ class Game:
                 EventHandler(self, event).handle(self.scene)
 
                 # When handling two players at the time, I can't block their presses at the same time @todo
-                # if event.type == KEYDOWN:
-                #     break
+                if self.scene == GAME_SCENE and event.type == KEYDOWN:
+                    break
 
             if self.scene == GAME_OVER_SCENE:
                 self.showGameOverScene()

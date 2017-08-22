@@ -18,4 +18,4 @@ class Illustrator:
     def grid(self):
         for i in range(0, WINDOW_WIDTH, GRID_SIZE):
             for j in range(0, WINDOW_HEIGHT, GRID_SIZE):
-                self.game.pygame.draw.rect(self.game.display, COLOR_ASBESTOS, [i, j, GRID_SIZE, GRID_SIZE], 1)
+                self.game.pygame.draw.rect(self.game.display, COLOR_BLACK, [i, j, GRID_SIZE - 1, GRID_SIZE - 1], 1)

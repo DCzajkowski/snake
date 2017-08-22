@@ -43,7 +43,8 @@ class EventHandler:
             if key == K_e:
                 self.game.end()
             if key == K_i:
-                self.game.snake.incrementLength()
+                for snake in self.game.snakes:
+                    snake.incrementLength()
             if key == K_g:
                 self.game.toggleGrid()
             if key == K_t:

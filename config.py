@@ -18,6 +18,8 @@ COLOR_PUMPKIN = (211, 84, 0) # rgb(211, 84, 0)
 COLOR_POMEGRANATE = (192, 57, 43) # rgb(192, 57, 43)
 COLOR_SILVER = (189, 195, 199) # rgb(189, 195, 199)
 COLOR_ASBESTOS = (127, 140, 141) # rgb(127, 140, 141)
+COLOR_BLACK = (0, 0, 0) # rgb(0, 0, 0)
+COLOR_DARK_GREY = (71, 78, 79) # rgb(71, 78, 79)
 
 GRID_SIZE = 15
 FRAMERATE = 30
@@ -38,3 +40,5 @@ MULTIPLAYER_GAME_SCENE = 'multi'
 SETTINGS_SCENE = 'settings'
 GAME_OVER_SCENE = 'game over'
 PAUSE_SCENE = 'pause'
+
+BASE_PATH = '/Users/Darek/Documents/Development/Python/dc-snake/'

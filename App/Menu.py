@@ -33,7 +33,8 @@ class Menu:
     def display(self):
         i = 0
         for element in self.elements:
-            self.game.display.blit(self.game.font(30).render(element, True, COLOR_CLOUDS), [WINDOW_WIDTH / 2 - 50, 200 + (40 * i)])
+            text = self.game.font(30).render(element, True, COLOR_CLOUDS)
+            self.game.display.blit(text, [WINDOW_WIDTH / 2 - text.get_rect().width / 2, 200 + (40 * i)])
             i += 1
 
-        self.game.display.blit(self.game.font(30).render('¬', True, COLOR_CLOUDS), [WINDOW_WIDTH / 2 - 70, 198 + (40 * self.position)])
+        self.game.display.blit(self.game.images['menu-selection'], [WINDOW_WIDTH / 2 - self.game.images['menu-selection'].get_rect().width / 2 - 120, 198 + (40 * self.position)])

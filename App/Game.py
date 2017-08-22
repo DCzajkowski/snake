@@ -30,12 +30,14 @@ class Game:
         self.menu = Menu(self)
 
         self.pygame.display.set_caption('The Snake Game')
-        self.pygame.display.set_icon(self.pygame.image.load('/Users/Darek/Documents/Development/Python/dc-snake/assets/icon.png'))
+        self.pygame.display.set_icon(self.pygame.image.load(BASE_PATH + 'assets/icon.png'))
 
         self.images = {
-            'snake-head': self.pygame.image.load('/Users/Darek/Documents/Development/Python/dc-snake/assets/snake_head.png'),
-            'snake-body': self.pygame.image.load('/Users/Darek/Documents/Development/Python/dc-snake/assets/snake_body.png'),
-            'apple': self.pygame.image.load('/Users/Darek/Documents/Development/Python/dc-snake/assets/apple.png')
+            'snake-head': self.pygame.image.load(BASE_PATH + 'assets/snake_head.png'),
+            'snake-body': self.pygame.image.load(BASE_PATH + 'assets/snake_body.png'),
+            'apple': self.pygame.image.load(BASE_PATH + 'assets/apple.png'),
+            'main-menu': self.pygame.image.load(BASE_PATH + 'assets/main_menu.png'),
+            'menu-selection': self.pygame.image.load(BASE_PATH + 'assets/selection.png')
         }
         self.config = {
             'style': 0,
@@ -48,10 +50,11 @@ class Game:
                     'snake-body': lambda snake, x, y: self.pygame.draw.rect(self.display, SNAKE_HEAD_COLOR, [x + 1, y + 1, snake.width - 2, snake.width - 2]),
                     'apple': lambda x, y: self.pygame.draw.rect(self.display, APPLE_COLOR, [x + 1, y + 1, GRID_SIZE - 2, GRID_SIZE - 2])
                 }, {
-                    'bg-color': COLOR_GREEN_SEA,
+                    'bg-color': COLOR_DARK_GREY,
                     'snake-head': lambda snake, x, y: self.display.blit(self.pygame.transform.rotate(self.images['snake-head'], 90 * (snake.direction if snake.direction is not None else 0)), (x, y)),
                     'snake-body': lambda snake, x, y: self.display.blit(self.images['snake-body'], (x, y)),
-                    'apple': lambda x, y: self.display.blit(self.pygame.transform.scale(self.images['apple'], (GRID_SIZE, GRID_SIZE)), (x, y))
+                    'apple': lambda x, y: self.display.blit(self.images['apple'], (x, y))
+                    # 'apple': lambda x, y: self.display.blit(self.pygame.transform.scale(self.images['apple'], (GRID_SIZE, GRID_SIZE)), (x - 1, y - 1))
                 }
             ]
         }
@@ -82,10 +85,9 @@ class Game:
     # ---
 
     def showMainMenuScene(self):
-        self.display.fill(COLOR_ASBESTOS)
-        header = self.font(40).render('The Snake Game', True, COLOR_CLOUDS)
+        self.display.fill(COLOR_EMERALD)
+        self.display.blit(self.images['main-menu'], (0, 0)),
 
-        self.display.blit(header, [WINDOW_WIDTH / 2 - header.get_rect().width / 2, 50])
         self.menu.display()
         self.showHighScore(self.highscore)
         self.screen.update()

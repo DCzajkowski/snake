@@ -54,7 +54,6 @@ class Game:
                     'snake-head': lambda snake, x, y: self.display.blit(self.pygame.transform.rotate(self.images['snake-head'], 90 * (snake.direction if snake.direction is not None else 0)), (x, y)),
                     'snake-body': lambda snake, x, y: self.display.blit(self.images['snake-body'], (x, y)),
                     'apple': lambda x, y: self.display.blit(self.images['apple'], (x, y))
-                    # 'apple': lambda x, y: self.display.blit(self.pygame.transform.scale(self.images['apple'], (GRID_SIZE, GRID_SIZE)), (x - 1, y - 1))
                 }
             ]
         }
@@ -190,7 +189,7 @@ class Game:
             self.reset()
             self.scene = MULTIPLAYER_GAME_SCENE
         else:
-            raise Exception('No handling for more than two players, yet.')
+            raise NotImplementedError('No handling for more than two players.')
 
     def reset(self):
         self.whoWon = None
@@ -276,10 +275,11 @@ class Game:
         return False
 
     def didSnakesCollideHeadOn(self, snakes):
-        if len(snakes) == 2: # Handle two for now, then @todo
+        if len(snakes) == 2:
             if snakes[0].x == snakes[1].x and snakes[0].y == snakes[1].y:
                 return True
-        return False
+            return False
+        raise NotImplementedError('No handling for else than two snakes')
 
     def doesAppleOverlapSnake(self, apple, snake):
         for segment in snake.tail[:-1]:

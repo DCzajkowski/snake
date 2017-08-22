@@ -1,12 +1,17 @@
-- [] Remember the high score
-- [] Show main menu with options:
-    - Enter your name
+- [x] Remember the high score
+- [x] Show main menu with options:
     - Play
     - Settings
-    - Leaderboard -- remembers by name highest scores
     - Exit
-- [] Show current Highscore in main menu
-- [] Show highscore on game screen
-- [] Add power-ups (slower, faster, more apples)
+- [x] Show current Highscore in main menu
+- [x] Show highscore on game screen
 - [x] Handle grid: 30
 - [x] Block button when in orientation
+- [] Change colors of snakes in multiplayer
+- [] Add power-ups (slower, faster, more apples, grow by more)
+- [] Remove a bug with event loop executing before game loop in multiplayer
+- [] Settings:
+    - Speed
+    - Theme
+    - Mode: 1 apple - 1 length, 1 apple - 5 length
+- [] On start allow players to pick a color

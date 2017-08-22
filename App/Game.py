@@ -141,11 +141,16 @@ class Game:
             self.showScore(self.snakes[0].length)
             self.showHighScore(self.highscore)
 
-        for snake in self.snakes:
-            if self.didSnakeCollideWithItself(snake):
+            if self.didSnakeCollideWithItself(self.snakes[0]):
                 self.end()
 
         if self.scene == MULTIPLAYER_GAME_SCENE:
+            if self.didSnakeCollideWithItself(self.snakes[0]):
+                self.whoWon = self.snakes[1].name
+                self.end()
+            if self.didSnakeCollideWithItself(self.snakes[1]):
+                self.whoWon = self.snakes[0].name
+                self.end()
             if self.didSnakesCollideHeadOn(self.snakes):
                 self.whoWon = None
                 self.end()

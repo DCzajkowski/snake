@@ -43,6 +43,7 @@ class Game:
             'style': 0,
             'debug': False,
             'showGrid': False,
+            'framerate': FRAMERATE,
             'styles': [
                 {
                     'bg-color': COLOR_MIDNIGHT_BLUE,
@@ -164,7 +165,7 @@ class Game:
                 self.whoWon = self.snakes[0].name
                 self.end()
 
-        self.clock.tick(FRAMERATE)
+        self.clock.tick(self.config['framerate'])
 
     # ---
     # Setters and getters

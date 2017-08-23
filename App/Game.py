@@ -62,28 +62,22 @@ class Game:
 
     def run(self):
         while True:
-            print('Game loop')
-
-            # Used to eliminate collision of keys in the multiplayer game.
-            # It annoys me to have it here, but there is no place to put it otherwise.
-            # It must be set in the game loop just before the event loop
+            # Used to eliminate collision of keys in the multiplayer game. It annoys me
+            # to have it here, but there is no place to put it elsewhere. It must be
+            # set in the game loop, just before the event loop is initialized.
             if self.scene == MULTIPLAYER_GAME_SCENE:
                 lastKeys = []
 
             for event in self.pygame.event.get():
-                if self.scene == MULTIPLAYER_GAME_SCENE and event.type == KEYDOWN:
-                    print('Event loop')
+                # Used to eliminate collision of keys. It is an annoying bug where if two keys
+                # are pressed too fast, the event loop is running before the game loop does
                 if self.scene == MULTIPLAYER_GAME_SCENE and self.didCollisionOfKeysAppear(lastKeys, event):
-                    print('continue')
                     continue
 
-                if self.scene == MULTIPLAYER_GAME_SCENE and event.type == KEYDOWN:
-                    print('Handling event ', event, 'Last keys: ', lastKeys)
                 EventHandler(self, event).handle(self.scene)
-                if self.scene == MULTIPLAYER_GAME_SCENE and event.type == KEYDOWN:
-                    print('----------------------------------')
-                # Used to eliminate collision of keys. It is an annoying bug where if two
-                # keys are pressed too fast, the event loop is running before the game loop has to.
+
+                # Used to eliminate collision of keys. It is an annoying bug where if two keys
+                # are pressed too fast, the event loop is running before the game loop does
                 if event.type == KEYDOWN:
                     if self.scene == MULTIPLAYER_GAME_SCENE and ('lastKeys' in globals() or 'lastKeys' in vars()):
                         lastKeys.append(event.key)

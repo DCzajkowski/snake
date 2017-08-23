@@ -283,7 +283,7 @@ class Game:
         raise NotImplementedError('No handling for else than two snakes')
 
     def doesAppleOverlapSnake(self, apple, snake):
-        for segment in snake.tail[:-1]:
+        for segment in snake.tail:
             if segment[0] == apple.x and segment[1] == apple.y:
                 return True
         return False

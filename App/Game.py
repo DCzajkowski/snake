@@ -62,12 +62,33 @@ class Game:
 
     def run(self):
         while True:
-            for event in self.pygame.event.get():
-                EventHandler(self, event).handle(self.scene)
+            print('Game loop')
 
-                # When handling two players at the time, I can't block their presses at the same time @todo
-                if self.scene == GAME_SCENE and event.type == KEYDOWN:
-                    break
+            # Used to eliminate collision of keys in the multiplayer game.
+            # It annoys me to have it here, but there is no place to put it otherwise.
+            # It must be set in the game loop just before the event loop
+            if self.scene == MULTIPLAYER_GAME_SCENE:
+                lastKeys = []
+
+            for event in self.pygame.event.get():
+                if self.scene == MULTIPLAYER_GAME_SCENE and event.type == KEYDOWN:
+                    print('Event loop')
+                if self.scene == MULTIPLAYER_GAME_SCENE and self.didCollisionOfKeysAppear(lastKeys, event):
+                    print('continue')
+                    continue
+
+                if self.scene == MULTIPLAYER_GAME_SCENE and event.type == KEYDOWN:
+                    print('Handling event ', event, 'Last keys: ', lastKeys)
+                EventHandler(self, event).handle(self.scene)
+                if self.scene == MULTIPLAYER_GAME_SCENE and event.type == KEYDOWN:
+                    print('----------------------------------')
+                # Used to eliminate collision of keys. It is an annoying bug where if two
+                # keys are pressed too fast, the event loop is running before the game loop has to.
+                if event.type == KEYDOWN:
+                    if self.scene == MULTIPLAYER_GAME_SCENE and ('lastKeys' in globals() or 'lastKeys' in vars()):
+                        lastKeys.append(event.key)
+                    elif self.scene == GAME_SCENE:
+                        break
 
             if self.scene == GAME_OVER_SCENE:
                 self.showGameOverScene()
@@ -287,6 +308,31 @@ class Game:
             if segment[0] == apple.x and segment[1] == apple.y:
                 return True
         return False
+
+    def didCollisionOfKeysAppear(self, lastKeys, event):
+        return (
+            lastKeys != []
+            and event.type == KEYDOWN
+            and (
+                (
+                    event.key in [K_UP, K_DOWN, K_LEFT, K_RIGHT]
+                    and (
+                        K_UP in lastKeys
+                        or K_DOWN in lastKeys
+                        or K_LEFT in lastKeys
+                        or K_RIGHT in lastKeys
+                    )
+                ) or (
+                    event.key in [K_w, K_a, K_s, K_d]
+                    and (
+                        K_w in lastKeys
+                        or K_a in lastKeys
+                        or K_s in lastKeys
+                        or K_d in lastKeys
+                    )
+                )
+            )
+        )
 
     # ---
     # Messaging

@@ -9,7 +9,7 @@
 - [x] Block button when in orientation
 - [] Change colors of snakes in multiplayer
 - [] Add power-ups (slower, faster, more apples, grow by more)
-- [] Remove a bug with event loop executing before game loop in multiplayer
+- [x] Remove a bug with event loop executing before game loop in multiplayer
 - [] Settings:
     - Speed
     - Theme

@@ -1,5 +1,4 @@
 from App.Game import Game
-from App.Snake import Snake
 from config import *
 import pygame
 

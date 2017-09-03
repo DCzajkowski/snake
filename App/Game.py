@@ -1,10 +1,10 @@
-from App.Apple import Apple
-from App.Database import Database
-from App.EventHandler import EventHandler
-from App.Menu import Menu
-from App.Screen import Screen
-from App.Settings import Settings
-from App.Snake import Snake
+from App.Core.Database import Database
+from App.Core.EventHandler import EventHandler
+from App.Core.Screen import Screen
+from App.Objects.Apple import Apple
+from App.Objects.Snake import Snake
+from App.Scenes.Menu import Menu
+from App.Scenes.Settings import Settings
 from config import *
 from pygame.locals import *
 import random

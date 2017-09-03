@@ -1,4 +1,4 @@
-from App.Illustrator import Illustrator
+from App.Core.Illustrator import Illustrator
 from config import *
 
 class Screen:

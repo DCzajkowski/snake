@@ -4,8 +4,12 @@ class Database:
     db = None
     filename = None
 
-    def __init__(self, filename):
-        dbFile = open(filename, 'r')
+    def __init__(self, filename, alternative = None):
+        try:
+            dbFile = open(filename, 'r')
+        except FileNotFoundError:
+            dbFile = open(alternative, 'r')
+
         self.db = json.loads(dbFile.read())
         dbFile.close()
 

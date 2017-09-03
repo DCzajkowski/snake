@@ -29,7 +29,7 @@ class Game:
         self.pygame = pygame
         self.display = pygame.display.set_mode((width, height))
         self.clock = pygame.time.Clock()
-        self.db = Database(BASE_PATH + 'db.json')
+        self.db = Database(BASE_PATH + 'db.json', BASE_PATH + 'db.example.json')
 
         self.images = images
         self.config = {

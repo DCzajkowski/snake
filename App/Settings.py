@@ -3,20 +3,13 @@ from config import *
 class Settings:
     game = None
     position = 0
-    elements = ['Speed', 'Theme', 'Mode', 'Back to Menu']
-    values = None
+    elementsCount = 4
 
     def __init__(self, game):
         self.game = game
-        self.values = [
-            self.game.config['framerate'],
-            self.game.config['style'],
-            self.game.config['mode'],
-            ''
-        ]
 
     def down(self):
-        if self.position + 1 < len(self.elements):
+        if self.position + 1 < self.elementsCount:
             self.position += 1
         else:
             self.position = 0
@@ -25,7 +18,7 @@ class Settings:
         if self.position - 1 >= 0:
             self.position -= 1
         else:
-            self.position = len(self.elements) - 1
+            self.position = self.elementsCount - 1
 
     def enter(self):
         if self.position == 3:

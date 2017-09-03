@@ -57,7 +57,13 @@ class Settings:
         text = self.game.font(30).render('Speed: ' + str(self.game.config['framerate']), True, COLOR_CLOUDS)
         self.game.display.blit(text, [WINDOW_WIDTH / 2 - text.get_rect().width / 2, 200])
 
-        text = self.game.font(30).render('Theme: ' + str(self.game.config['style']), True, COLOR_CLOUDS)
+        if self.game.config['style'] == 0:
+            style = 'Simple'
+        elif self.game.config['style'] == 1:
+            style = 'Colourful'
+        elif self.game.config['style'] == 2:
+            style = 'Realistic'
+        text = self.game.font(30).render('Theme: ' + style, True, COLOR_CLOUDS)
         self.game.display.blit(text, [WINDOW_WIDTH / 2 - text.get_rect().width / 2, 200 + 40])
 
         text = self.game.font(30).render('Mode: ' + str(self.game.config['mode']), True, COLOR_CLOUDS)

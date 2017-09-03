@@ -7,12 +7,11 @@
 - [x] Show highscore on game screen
 - [x] Handle grid: 30
 - [x] Block button when in orientation
-- [] Change colors of snakes in multiplayer
+- [x] Change colors of snakes in multiplayer
 - [] Add power-ups (slower, faster, more apples, grow by more)
 - [x] Remove a bug with event loop executing before game loop in multiplayer
 - [x] Settings:
     - Speed
     - Theme
     - Mode: 1 apple - 1 length, 1 apple - 5 length
-- [] On start allow players to pick a color
 - [] Check is leaving trailing commas possible in Python

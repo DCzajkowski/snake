@@ -218,11 +218,11 @@ class Game:
 
     def play(self, players):
         if players == 1:
-            self.snakes = [Snake(x = (round(TILE_COUNT_X / 2) - 1), y = (round(TILE_COUNT_Y / 2) - 1))]
+            self.snakes = [Snake(x = (round(TILE_COUNT_X / 2) - 1), y = (round(TILE_COUNT_Y / 2) - 1), identifier = 0)]
             self.reset()
             self.scene = GAME_SCENE
         elif players == 2:
-            self.snakes = [Snake(x = 0, y = 0, name = 'Player 1'), Snake(x = TILE_COUNT_X - 1, y = TILE_COUNT_Y - 1, name = 'Player 2')]
+            self.snakes = [Snake(x = 0, y = 0, name = 'Player 1', identifier = 1), Snake(x = TILE_COUNT_X - 1, y = TILE_COUNT_Y - 1, name = 'Player 2', identifier = 2)]
             self.reset()
             self.scene = MULTIPLAYER_GAME_SCENE
         else:

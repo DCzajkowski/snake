@@ -25,6 +25,8 @@ class EventHandler:
             self.handlePauseScene(key, modifier)
         elif scene == MENU_SCENE:
             self.handleMenuScene(key, modifier)
+        elif scene == SETTINGS_SCENE:
+            self.handleSettingsScene(key, modifier)
         elif scene == GAME_OVER_SCENE:
             self.handleGameOverScene(key, modifier)
 
@@ -65,6 +67,16 @@ class EventHandler:
             self.game.menu.up()
         if key in [K_RETURN, K_SPACE]:
             self.game.menu.enter()
+
+    def handleSettingsScene(self, key, modifier):
+        if key == K_DOWN:
+            self.game.settings.down()
+        if key == K_UP:
+            self.game.settings.up()
+        if key in [K_RETURN, K_SPACE]:
+            self.game.settings.enter()
+        if key in [K_RIGHT, K_LEFT]:
+            self.game.settings.change(1 if key == K_RIGHT else -1)
 
     def handleGameOverScene(self, key, modifier):
         if key == K_ESCAPE:

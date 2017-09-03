@@ -26,7 +26,7 @@ class Menu:
         if self.position == 1:
             self.game.play(2)
         elif self.position == 2:
-            self.game.scene == SETTINGS_SCENE
+            self.game.scene = SETTINGS_SCENE
         elif self.position == 3:
             self.game.quit()
 

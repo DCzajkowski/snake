@@ -2,6 +2,7 @@ from config import *
 from App.EventHandler import EventHandler
 from App.Screen import Screen
 from App.Apple import Apple
+from App.Settings import Settings
 from App.Snake import Snake
 import time
 from pygame.locals import *
@@ -16,49 +17,64 @@ class Game:
     apple = None
     images = None
     config = None
-    highscore = None
     scene = MENU_SCENE
     screen = None
     menu = None
+    settings = None
     whoWon = None
+    db = None
 
-    def __init__(self, pygame, highscore = None, width = 800, height = 600):
+    def __init__(self, pygame, images, width = 800, height = 600):
         self.pygame = pygame
         self.display = pygame.display.set_mode((width, height))
         self.clock = pygame.time.Clock()
-        self.highscore = highscore if highscore is not None else 0
-        self.menu = Menu(self)
+        self.db = Database(BASE_PATH + 'db.json')
 
-        self.pygame.display.set_caption('The Snake Game')
-        self.pygame.display.set_icon(self.pygame.image.load(BASE_PATH + 'assets/icon.png'))
-
-        self.images = {
-            'snake-head': self.pygame.image.load(BASE_PATH + 'assets/snake_head.png'),
-            'snake-body': self.pygame.image.load(BASE_PATH + 'assets/snake_body.png'),
-            'apple': self.pygame.image.load(BASE_PATH + 'assets/apple.png'),
-            'main-menu': self.pygame.image.load(BASE_PATH + 'assets/main_menu.png'),
-            'menu-selection': self.pygame.image.load(BASE_PATH + 'assets/selection.png')
-        }
+        self.images = images
         self.config = {
-            'style': 0,
+            'style': self.db.read('style'),
             'debug': False,
             'showGrid': False,
-            'framerate': FRAMERATE,
+            'mode': self.db.read('mode'), # 0 is one apple = one tile. 1 is one apple = 5 tiles
+            'framerate': self.db.read('speed'),
             'styles': [
                 {
                     'bg-color': COLOR_MIDNIGHT_BLUE,
-                    'snake-head': lambda snake, x, y: self.pygame.draw.rect(self.display, SNAKE_HEAD_COLOR, [x + 1, y + 1, snake.width - 2, snake.width - 2]),
-                    'snake-body': lambda snake, x, y: self.pygame.draw.rect(self.display, SNAKE_HEAD_COLOR, [x + 1, y + 1, snake.width - 2, snake.width - 2]),
-                    'apple': lambda x, y: self.pygame.draw.rect(self.display, APPLE_COLOR, [x + 1, y + 1, GRID_SIZE - 2, GRID_SIZE - 2])
+                    'snake0-head': lambda snake, x, y: self.pygame.draw.rect(self.display, COLOR_CLOUDS, [x + 1, y + 1, snake.width - 2, snake.width - 2]),
+                    'snake0-body': lambda snake, x, y: self.pygame.draw.rect(self.display, COLOR_CLOUDS, [x + 1, y + 1, snake.width - 2, snake.width - 2]),
+                    'snake1-head': lambda snake, x, y: self.pygame.draw.rect(self.display, COLOR_CLOUDS, [x + 1, y + 1, snake.width - 2, snake.width - 2]),
+                    'snake1-body': lambda snake, x, y: self.pygame.draw.rect(self.display, COLOR_CLOUDS, [x + 1, y + 1, snake.width - 2, snake.width - 2]),
+                    'snake2-head': lambda snake, x, y: self.pygame.draw.rect(self.display, COLOR_CLOUDS, [x + 1, y + 1, snake.width - 2, snake.width - 2]),
+                    'snake2-body': lambda snake, x, y: self.pygame.draw.rect(self.display, COLOR_CLOUDS, [x + 1, y + 1, snake.width - 2, snake.width - 2]),
+                    'apple': lambda x, y: self.pygame.draw.rect(self.display, COLOR_POMEGRANATE, [x + 1, y + 1, GRID_SIZE - 2, GRID_SIZE - 2])
+                }, {
+                    'bg-color': COLOR_MIDNIGHT_BLUE,
+                    'snake0-head': lambda snake, x, y: self.pygame.draw.rect(self.display, COLOR_CLOUDS, [x + 1, y + 1, snake.width - 2, snake.width - 2]),
+                    'snake0-body': lambda snake, x, y: self.pygame.draw.rect(self.display, COLOR_CLOUDS, [x + 1, y + 1, snake.width - 2, snake.width - 2]),
+                    'snake1-head': lambda snake, x, y: self.pygame.draw.rect(self.display, COLOR_BELIZE_HOLE, [x + 1, y + 1, snake.width - 2, snake.width - 2]),
+                    'snake1-body': lambda snake, x, y: self.pygame.draw.rect(self.display, COLOR_BELIZE_HOLE, [x + 1, y + 1, snake.width - 2, snake.width - 2]),
+                    'snake2-head': lambda snake, x, y: self.pygame.draw.rect(self.display, COLOR_PUMPKIN, [x + 1, y + 1, snake.width - 2, snake.width - 2]),
+                    'snake2-body': lambda snake, x, y: self.pygame.draw.rect(self.display, COLOR_PUMPKIN, [x + 1, y + 1, snake.width - 2, snake.width - 2]),
+                    'apple': lambda x, y: self.pygame.draw.rect(self.display, COLOR_POMEGRANATE, [x + 1, y + 1, GRID_SIZE - 2, GRID_SIZE - 2])
                 }, {
                     'bg-color': COLOR_DARK_GREY,
-                    'snake-head': lambda snake, x, y: self.display.blit(self.pygame.transform.rotate(self.images['snake-head'], 90 * (snake.direction if snake.direction is not None else 0)), (x, y)),
-                    'snake-body': lambda snake, x, y: self.display.blit(self.images['snake-body'], (x, y)),
+                    'snake0-head': lambda snake, x, y: self.display.blit(self.pygame.transform.rotate(self.images['snake-head'], 90 * (snake.direction if snake.direction is not None else 0)), (x, y)),
+                    'snake0-body': lambda snake, x, y: self.display.blit(self.images['snake-body'], (x, y)),
+                    'snake1-head': lambda snake, x, y: self.display.blit(self.pygame.transform.rotate(self.images['snake-head'], 90 * (snake.direction if snake.direction is not None else 0)), (x, y)),
+                    'snake1-body': lambda snake, x, y: self.display.blit(self.images['snake-body'], (x, y)),
+                    'snake2-head': lambda snake, x, y: self.display.blit(self.pygame.transform.rotate(self.images['snake-head'], 90 * (snake.direction if snake.direction is not None else 0)), (x, y)),
+                    'snake2-body': lambda snake, x, y: self.display.blit(self.images['snake-body'], (x, y)),
                     'apple': lambda x, y: self.display.blit(self.images['apple'], (x, y))
                 }
             ]
         }
+
+        self.menu = Menu(self)
+        self.settings = Settings(self)
         self.screen = Screen(self)
+
+        self.pygame.display.set_caption('The Snake Game')
+        self.pygame.display.set_icon(self.pygame.image.load(BASE_PATH + 'assets/icon.png'))
 
     def run(self):
         while True:
@@ -101,14 +117,18 @@ class Game:
 
     def showMainMenuScene(self):
         self.display.fill(COLOR_EMERALD)
-        self.display.blit(self.images['main-menu'], (0, 0)),
+        self.display.blit(self.images['main-menu'], (0, 0))
 
         self.menu.display()
-        self.showHighScore(self.highscore)
+        self.showHighScore(self.db.read('highscore'))
         self.screen.update()
 
     def showSettingsScene(self):
-        pass
+        self.display.fill(COLOR_EMERALD)
+        self.display.blit(self.images['settings'], (0, 0))
+
+        self.settings.display()
+        self.screen.update()
 
     def showPauseScene(self):
         self.display.fill(COLOR_ASBESTOS)
@@ -154,7 +174,7 @@ class Game:
 
         if self.scene == GAME_SCENE:
             self.showScore(self.snakes[0].length)
-            self.showHighScore(self.highscore)
+            self.showHighScore(self.db.read('highscore'))
 
             if self.didSnakeCollideWithItself(self.snakes[0]):
                 self.end()
@@ -355,6 +375,6 @@ class Game:
         self.screen.update()
 
     def updateHighscore(self):
-        if self.snakes[0].length > self.highscore:
-            self.highscore = self.snakes[0].length
-        open('db.txt', 'w').write('highscore=' + str(self.highscore))
+        if self.snakes[0].length > self.db.read('highscore'):
+            self.db.change('highscore', self.snakes[0].length)
+        open('db.txt', 'w').write('highscore=' + str(self.db.read('highscore')))

@@ -1,18 +1,18 @@
-import pygame
-from App.Snake import Snake
 from App.Game import Game
+from App.Snake import Snake
 from config import *
+import pygame
 
 pygame.init()
 
-db = tuple(open('db.txt', 'r'))
+images = {
+    'snake-head': pygame.image.load(BASE_PATH + 'assets/snake_head.png'),
+    'snake-body': pygame.image.load(BASE_PATH + 'assets/snake_body.png'),
+    'apple': pygame.image.load(BASE_PATH + 'assets/apple.png'),
+    'main-menu': pygame.image.load(BASE_PATH + 'assets/main_menu.png'),
+    'menu-selection': pygame.image.load(BASE_PATH + 'assets/selection.png'),
+    'settings': pygame.image.load(BASE_PATH + 'assets/settings.png')
+}
 
-highscore = 0
-
-for line in db:
-    line = line.rstrip('\n').split('=')
-    if line[0] == 'highscore':
-        highscore = line[1]
-
-game = Game(pygame, highscore = int(highscore), width = WINDOW_WIDTH, height = WINDOW_HEIGHT)
+game = Game(pygame, images = images, width = WINDOW_WIDTH, height = WINDOW_HEIGHT)
 game.run()

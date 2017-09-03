@@ -59,6 +59,8 @@ class EventHandler:
             self.game.unpause()
         if key == K_q:
             self.game.quit()
+        if key == K_m:
+            self.game.scene = MENU_SCENE
 
     def handleMenuScene(self, key, modifier):
         if key == K_DOWN:

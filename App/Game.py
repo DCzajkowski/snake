@@ -378,4 +378,3 @@ class Game:
     def updateHighscore(self):
         if self.snakes[0].length > self.db.read('highscore'):
             self.db.change('highscore', self.snakes[0].length)
-        open('db.txt', 'w').write('highscore=' + str(self.db.read('highscore')))

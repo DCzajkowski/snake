@@ -1,13 +1,14 @@
-from config import *
-from App.EventHandler import EventHandler
-from App.Screen import Screen
 from App.Apple import Apple
+from App.Database import Database
+from App.EventHandler import EventHandler
+from App.Menu import Menu
+from App.Screen import Screen
 from App.Settings import Settings
 from App.Snake import Snake
-import time
+from config import *
 from pygame.locals import *
 import random
-from App.Menu import Menu
+import time
 
 class Game:
     pygame = None

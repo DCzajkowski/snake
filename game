@@ -1,0 +1,20 @@
+from App.Core.Database import Database
+from App.Game import Game
+from config import *
+import pygame
+
+pygame.init()
+
+db = Database('db.json')
+
+images = {
+    'snake-head': pygame.image.load(db.read('path') + 'assets/snake_head.png'),
+    'snake-body': pygame.image.load(db.read('path') + 'assets/snake_body.png'),
+    'apple': pygame.image.load(db.read('path') + 'assets/apple.png'),
+    'main-menu': pygame.image.load(db.read('path') + 'assets/main_menu.png'),
+    'menu-selection': pygame.image.load(db.read('path') + 'assets/selection.png'),
+    'settings': pygame.image.load(db.read('path') + 'assets/settings.png'),
+}
+
+game = Game(pygame, db, images, WINDOW_WIDTH, WINDOW_HEIGHT)
+game.run()

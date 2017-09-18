@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+import os
+import json
+
+try:
+    dbFile = open('db.json', 'r')
+except FileNotFoundError:
+    dbFile = open('db.example.json', 'r')
+
+config = json.loads(dbFile.read())
+dbFile.close()
+
+config['path'] = os.path.dirname(os.path.realpath(__file__)) + '/'
+
+dbFile = open('db.json', 'w')
+dbFile.write(json.dumps(config))
+dbFile.close()

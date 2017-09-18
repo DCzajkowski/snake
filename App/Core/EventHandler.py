@@ -17,7 +17,7 @@ class EventHandler:
 
     def keyPressed(self, key, modifier, scene):
         if self.cmdPressed(modifier) and key == K_w:
-                self.game.quit()
+            self.game.quit()
 
         if scene in [GAME_SCENE, MULTIPLAYER_GAME_SCENE]:
             self.handleGameScene(key, modifier)

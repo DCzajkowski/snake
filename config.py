@@ -39,5 +39,3 @@ MULTIPLAYER_GAME_SCENE = 'multi'
 SETTINGS_SCENE = 'settings'
 GAME_OVER_SCENE = 'game over'
 PAUSE_SCENE = 'pause'
-
-BASE_PATH = '/Users/Darek/Documents/Development/Python/dc-snake/'

@@ -1,4 +1,3 @@
-from App.Core.Database import Database
 from App.Core.EventHandler import EventHandler
 from App.Core.Screen import Screen
 from App.Objects.Apple import Apple
@@ -25,11 +24,11 @@ class Game:
     whoWon = None
     db = None
 
-    def __init__(self, pygame, images, width = 800, height = 600):
+    def __init__(self, pygame, db, images, width = 800, height = 600):
         self.pygame = pygame
         self.display = pygame.display.set_mode((width, height))
         self.clock = pygame.time.Clock()
-        self.db = Database(BASE_PATH + 'db.json', BASE_PATH + 'db.example.json')
+        self.db = db
 
         self.images = images
         self.config = {
@@ -75,7 +74,7 @@ class Game:
         self.screen = Screen(self)
 
         self.pygame.display.set_caption('The Snake Game')
-        self.pygame.display.set_icon(self.pygame.image.load(BASE_PATH + 'assets/icon.png'))
+        self.pygame.display.set_icon(self.pygame.image.load(self.db.read('path') + 'assets/icon.png'))
 
     def run(self):
         while True:

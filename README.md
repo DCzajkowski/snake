@@ -19,9 +19,9 @@ python3 game
 ## Controls and Settings
 ### Controls
 To navigate the menu use your arrows. To confirm your choice, press a space bar or an enter key.
-You can control the snake with your arrows as well as with `W``S``A``D` controls.
+You can control the snake with your arrows as well as with `W`, `S`, `A` and `D` controls.
 
-In the multiplayer, one snake is controlled with `W``S``A``D`, and one with arrows.
+In the multiplayer, one snake is controlled with `W`, `S`, `A` and `D`, and one with arrows.
 
 ### Settings
 All settings can be changed in the Settings tab in the main menu.

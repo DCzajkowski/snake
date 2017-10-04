@@ -89,7 +89,7 @@ class Game:
             for event in self.pygame.event.get():
                 # Used to eliminate collision of keys. It is an annoying bug where if two keys
                 # are pressed too fast, the event loop is running before the game loop does
-                if self.scene == MULTIPLAYER_GAME_SCENE and self.didCollisionOfKeysAppear(lastKeys, event):
+                if self.scene == MULTIPLAYER_GAME_SCENE and ('lastKeys' in globals() or 'lastKeys' in vars()) and self.didCollisionOfKeysAppear(lastKeys, event):
                     continue
 
                 EventHandler(self, event).handle(self.scene)

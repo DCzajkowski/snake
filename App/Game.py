@@ -10,19 +10,20 @@ import random
 import time
 
 class Game:
-    pygame = None
-    display = None
-    snakes = None
-    clock = None
+    # Just for reference to know which properties are available
     apple = None
-    images = None
+    clock = None
     config = None
+    db = None
+    display = None
+    images = None
+    menu = None
+    pygame = None
     scene = MENU_SCENE
     screen = None
-    menu = None
     settings = None
+    snakes = None
     whoWon = None
-    db = None
 
     def __init__(self, pygame, db, images, width = 800, height = 600):
         self.pygame = pygame

@@ -66,10 +66,14 @@ class Settings:
         text = self.game.font(30).render('Theme: ' + style, True, COLOR_CLOUDS)
         self.game.display.blit(text, [WINDOW_WIDTH / 2 - text.get_rect().width / 2, 200 + 40])
 
-        text = self.game.font(30).render('Mode: ' + str(self.game.config['mode']), True, COLOR_CLOUDS)
+        if self.game.config['mode'] == 0:
+            mode = 'Classic Snake'
+        elif self.game.config['mode'] == 1:
+            mode = 'Curve Fever'
+        text = self.game.font(30).render('Mode: ' + mode, True, COLOR_CLOUDS)
         self.game.display.blit(text, [WINDOW_WIDTH / 2 - text.get_rect().width / 2, 200 + 80])
 
         text = self.game.font(30).render('Back to Menu', True, COLOR_CLOUDS)
         self.game.display.blit(text, [WINDOW_WIDTH / 2 - text.get_rect().width / 2, 200 + 120])
 
-        self.game.display.blit(self.game.images['menu-selection'], [WINDOW_WIDTH / 2 - self.game.images['menu-selection'].get_rect().width / 2 - 120, 198 + (40 * self.position)])
+        self.game.display.blit(self.game.images['menu-selection'], [WINDOW_WIDTH / 2 - self.game.images['menu-selection'].get_rect().width / 2 - 150, 198 + (40 * self.position)])

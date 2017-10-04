@@ -55,7 +55,7 @@ class Game:
                     'snake1-body': lambda snake, x, y: self.pygame.draw.rect(self.display, COLOR_BELIZE_HOLE, [x + 1, y + 1, snake.width - 2, snake.width - 2]),
                     'snake2-head': lambda snake, x, y: self.pygame.draw.rect(self.display, COLOR_PUMPKIN, [x + 1, y + 1, snake.width - 2, snake.width - 2]),
                     'snake2-body': lambda snake, x, y: self.pygame.draw.rect(self.display, COLOR_PUMPKIN, [x + 1, y + 1, snake.width - 2, snake.width - 2]),
-                    'apple': lambda x, y: self.pygame.draw.rect(self.display, COLOR_POMEGRANATE, [x + 1, y + 1, GRID_SIZE - 2, GRID_SIZE - 2]),
+                    'apple': lambda x, y: self.pygame.draw.rect(self.display, COLOR_CLOUDS, [x + 1, y + 1, GRID_SIZE - 2, GRID_SIZE - 2]),
                 }, {
                     'bg-color': COLOR_DARK_GREY,
                     'snake0-head': lambda snake, x, y: self.display.blit(self.pygame.transform.rotate(self.images['snake-head'], 90 * (snake.direction if snake.direction is not None else 0)), (x, y)),

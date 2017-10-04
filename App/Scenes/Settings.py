@@ -74,6 +74,6 @@ class Settings:
         self.game.display.blit(text, [WINDOW_WIDTH / 2 - text.get_rect().width / 2, 200 + 80])
 
         text = self.game.font(30).render('Back to Menu', True, COLOR_CLOUDS)
-        self.game.display.blit(text, [WINDOW_WIDTH / 2 - text.get_rect().width / 2, 200 + 120])
+        self.game.display.blit(text, [WINDOW_WIDTH / 2 - text.get_rect().width / 2, 200 + 80])
 
         self.game.display.blit(self.game.images['menu-selection'], [WINDOW_WIDTH / 2 - self.game.images['menu-selection'].get_rect().width / 2 - 150, 198 + (40 * self.position)])

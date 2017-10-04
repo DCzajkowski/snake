@@ -73,12 +73,14 @@ class Snake:
     def incrementLength(self):
         self.length += 1
 
-    def createTail(self, gameMode, frame, framerate):
-        # print(self.tail, self.xVelocity, self.yVelocity)
-        if self.xVelocity != 0 or self.yVelocity != 0:
-            if (frame % 10) not in [5, 6, 7, 8, 9]:
-                self.tail.append([self.x, self.y])
+    def createTail(self, game):
+        if game.config['mode'] == 1 and game.scene == MULTIPLAYER_GAME_SCENE:
+            if self.xVelocity != 0 or self.yVelocity != 0:
+                if (game.frame % 10) not in [5, 6, 7, 8, 9]:
+                    self.tail.append([self.x, self.y])
 
-        if gameMode == 0:
+        elif game.config['mode'] == 0 or game.scene == GAME_SCENE:
+            self.tail.append([self.x, self.y])
+
             if len(self.tail) > self.length:
                 del self.tail[0]

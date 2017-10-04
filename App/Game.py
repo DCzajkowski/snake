@@ -14,6 +14,7 @@ class Game:
     apple = None
     clock = None
     config = None
+    frame = 1
     db = None
     display = None
     images = None
@@ -146,13 +147,16 @@ class Game:
                 self.message('Game Over. ' + self.whoWon + ' wins.', 'Press ESC to quit or space bar to continue...', COLOR_CLOUDS, COLOR_CLOUDS)
 
     def showGameScene(self):
+        self.frame += 1
+        print(self.frame)
+
         for snake in self.snakes:
             if self.didSnakeGoOffScreen(snake):
                 snake.loopBack()
             else:
                 snake.moveHead(snake.xVelocity, snake.yVelocity)
 
-            snake.createTail()
+            snake.createTail(self.config['mode'], self.frame, self.config['framerate'])
 
         self.screen.initBackground()
         self.screen.draw().apple(self.apple.x, self.apple.y)
@@ -230,6 +234,7 @@ class Game:
 
     def reset(self):
         self.whoWon = None
+        self.frame = 1
         self.setDebug(False)
         for snake in self.snakes:
             snake.reset()

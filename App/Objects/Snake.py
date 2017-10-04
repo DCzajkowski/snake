@@ -36,7 +36,7 @@ class Snake:
         self.y = self.initY
         self.xVelocity = 0
         self.yVelocity = 0
-        self.tail = []
+        self.tail = [[self.x, self.y]]
         self.length = 1
         self.direction = None
 
@@ -73,8 +73,12 @@ class Snake:
     def incrementLength(self):
         self.length += 1
 
-    def createTail(self):
-        self.tail.append([self.x, self.y])
+    def createTail(self, gameMode, frame, framerate):
+        # print(self.tail, self.xVelocity, self.yVelocity)
+        if self.xVelocity != 0 or self.yVelocity != 0:
+            if (frame % 10) not in [5, 6, 7, 8, 9]:
+                self.tail.append([self.x, self.y])
 
-        if len(self.tail) > self.length:
-            del self.tail[0]
+        if gameMode == 0:
+            if len(self.tail) > self.length:
+                del self.tail[0]

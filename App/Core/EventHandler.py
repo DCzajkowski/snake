@@ -39,7 +39,7 @@ class EventHandler:
             self.moveSnake(key)
         if key == K_ESCAPE:
             self.game.pause()
-        if self.cmdPressed(modifier) and key == K_d:
+        if (self.cmdPressed(modifier) and key == K_d) or (self.ctrlPressed(modifier) and key == K_d):
             self.game.toggleDebug()
         if self.game.inDebugMode():
             if key == K_e:

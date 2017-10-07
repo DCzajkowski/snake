@@ -25,3 +25,14 @@ In the multiplayer, one snake is controlled with `W`, `S`, `A` and `D`, and one 
 
 ### Settings
 All settings can be changed in the Settings tab in the main menu.
+
+### Debug mode
+To enter debug mode, enter the game (single-, or multi-player), press `cmd/ctrl`+`d`.
+
+When in debug mode, you can try these options:
+- `i` - increase snake length,
+- `g` - display the grid,
+- `e` - end the game,
+- `t` - toggle between different themes/styles.
+
+To exit debug mode, press `cmd/ctrl`+`d`.

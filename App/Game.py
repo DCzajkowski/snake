@@ -184,16 +184,21 @@ class Game:
                 self.end()
 
         if self.scene == MULTIPLAYER_GAME_SCENE:
-            if self.didSnakeCollideWithItself(self.snakes[0]):
+            if self.didSnakeCollideWithItself(self.snakes[0]) and self.didSnakeCollideWithItself(self.snakes[1]):
+                self.whoWon = None
+                self.end()
+            elif self.didSnakeCollideWithItself(self.snakes[0]):
                 self.whoWon = self.snakes[1].name
                 self.end()
-            if self.didSnakeCollideWithItself(self.snakes[1]):
+            elif self.didSnakeCollideWithItself(self.snakes[1]):
                 self.whoWon = self.snakes[0].name
                 self.end()
+
             if self.didSnakesCollideHeadOn(self.snakes):
                 self.whoWon = None
                 self.end()
-            elif (self.didSnakeCollideWithOtherSnakesTail(self.snakes[0], self.snakes[1])
+
+            if (self.didSnakeCollideWithOtherSnakesTail(self.snakes[0], self.snakes[1])
                 and self.didSnakeCollideWithOtherSnakesTail(self.snakes[1], self.snakes[0])):
                 self.whoWon = None
                 self.end()

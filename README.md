@@ -23,6 +23,8 @@ You can control the snake with your arrows as well as with `W`, `S`, `A` and `D`
 
 In the multiplayer, one snake is controlled with `W`, `S`, `A` and `D`, and one with arrows.
 
+`Esc` pauses the game.
+
 ### Settings
 All settings can be changed in the Settings tab in the main menu.
 

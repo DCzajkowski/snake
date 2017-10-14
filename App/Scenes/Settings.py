@@ -3,7 +3,7 @@ from config import *
 class Settings:
     game = None
     position = 0
-    elementsCount = 4
+    elementsCount = 5
 
     def __init__(self, game):
         self.game = game
@@ -21,7 +21,7 @@ class Settings:
             self.position = self.elementsCount - 1
 
     def enter(self):
-        if self.position == 3:
+        if self.position == self.elementsCount - 1:
             self.game.scene = MENU_SCENE
 
     def change(self, direction):
@@ -31,6 +31,8 @@ class Settings:
             self.toggleStyle(direction)
         if self.position == 2:
             self.toggleMode(direction)
+        if self.position == 3:
+            self.toggleSize(direction)
 
     def toggleSpeed(self, direction):
         value = AVAILABLE_SPEEDS[self.calculatePosition(direction, (AVAILABLE_SPEEDS).index(self.game.config['framerate']), len(AVAILABLE_SPEEDS))]
@@ -46,6 +48,12 @@ class Settings:
         value = AVAILABLE_MODES[self.calculatePosition(direction, (AVAILABLE_MODES).index(self.game.config['mode']), len(AVAILABLE_MODES))]
         self.game.config['mode'] = value
         self.game.db.change('mode', value)
+
+    def toggleSize(self, direction):
+        value = AVAILABLE_SIZES[self.calculatePosition(direction, (AVAILABLE_SIZES).index(self.game.config['grid-size']), len(AVAILABLE_SIZES))]
+
+        self.game.config.updateGridSize(value)
+        self.game.db.change('grid-size', value)
 
     def calculatePosition(self, direction, position, length):
         if direction == 1:
@@ -73,7 +81,10 @@ class Settings:
         text = self.game.font(30).render('Mode: ' + mode, True, COLOR_CLOUDS)
         self.game.display.blit(text, [WINDOW_WIDTH / 2 - text.get_rect().width / 2, 200 + 80])
 
-        text = self.game.font(30).render('Back to Menu', True, COLOR_CLOUDS)
+        text = self.game.font(30).render('Grid size: ' + str(self.game.config['grid-size']), True, COLOR_CLOUDS)
         self.game.display.blit(text, [WINDOW_WIDTH / 2 - text.get_rect().width / 2, 200 + 120])
+
+        text = self.game.font(30).render('Back to Menu', True, COLOR_CLOUDS)
+        self.game.display.blit(text, [WINDOW_WIDTH / 2 - text.get_rect().width / 2, 200 + 160])
 
         self.game.display.blit(self.game.images['menu-selection'], [WINDOW_WIDTH / 2 - self.game.images['menu-selection'].get_rect().width / 2 - 150, 198 + (40 * self.position)])

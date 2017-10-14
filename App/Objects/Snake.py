@@ -14,10 +14,11 @@ class Snake:
     name = None
     identifier = None
 
-    def __init__(self, width = GRID_SIZE, x = None, y = None, name = None, identifier = None):
-        self.width = width
-        self.initX = x if x is not None else (round(TILE_COUNT_X / 2) - 1)
-        self.initY = y if y is not None else (round(TILE_COUNT_Y / 2) - 1)
+    def __init__(self, game = None, width = None, x = None, y = None, name = None, identifier = None):
+        self.game = game
+        self.width = self.game.config['grid-size']
+        self.initX = x if x is not None else (round(self.game.config['tile-count-x'] / 2) - 1)
+        self.initY = y if y is not None else (round(self.game.config['tile-count-y'] / 2) - 1)
         self.name = name
         self.identifier = identifier
 
@@ -61,14 +62,14 @@ class Snake:
             self.direction = 0
 
     def loopBack(self):
-        if self.x > TILE_COUNT_X - 1:
+        if self.x > self.game.config['tile-count-x'] - 1:
             self.x = 0
         elif self.x < 0:
-            self.x = TILE_COUNT_X - 1
-        elif self.y > TILE_COUNT_Y - 1:
+            self.x = self.game.config['tile-count-x'] - 1
+        elif self.y > self.game.config['tile-count-y'] - 1:
             self.y = 0
         elif self.y < 0:
-            self.y = TILE_COUNT_Y - 1
+            self.y = self.game.config['tile-count-y'] - 1
 
     def incrementLength(self):
         self.length += 1

@@ -7,15 +7,15 @@ class Illustrator:
         self.game = game
 
     def snake(self, snake):
-        self.game.currentStyle('snake' + str(snake.identifier) + '-head')(snake, snake.x * GRID_SIZE, snake.y * GRID_SIZE)
+        self.game.currentStyle('snake' + str(snake.identifier) + '-head')(snake, snake.x * self.game.config['grid-size'], snake.y * self.game.config['grid-size'])
 
         for segment in snake.tail:
-            self.game.currentStyle('snake' + str(snake.identifier) + '-body')(snake, segment[0] * GRID_SIZE, segment[1] * GRID_SIZE)
+            self.game.currentStyle('snake' + str(snake.identifier) + '-body')(snake, segment[0] * self.game.config['grid-size'], segment[1] * self.game.config['grid-size'])
 
     def apple(self, x, y):
-        self.game.currentStyle('apple')(x * GRID_SIZE, y * GRID_SIZE)
+        self.game.currentStyle('apple')(x * self.game.config['grid-size'], y * self.game.config['grid-size'])
 
     def grid(self):
-        for i in range(0, WINDOW_WIDTH, GRID_SIZE):
-            for j in range(0, WINDOW_HEIGHT, GRID_SIZE):
-                self.game.pygame.draw.rect(self.game.display, COLOR_BLACK, [i, j, GRID_SIZE - 1, GRID_SIZE - 1], 1)
+        for i in range(0, WINDOW_WIDTH, self.game.config['grid-size']):
+            for j in range(0, WINDOW_HEIGHT, self.game.config['grid-size']):
+                self.game.pygame.draw.rect(self.game.display, COLOR_BLACK, [i, j, self.game.config['grid-size'] - 1, self.game.config['grid-size'] - 1], 1)

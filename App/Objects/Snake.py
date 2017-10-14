@@ -1,4 +1,4 @@
-from config import *
+from App.constants import *
 
 class Snake:
     width = 0

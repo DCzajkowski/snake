@@ -1,4 +1,4 @@
-from config import *
+from App.constants import *
 
 class Settings:
     game = None

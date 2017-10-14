@@ -1,6 +1,6 @@
+from App.constants import *
 from App.Core.Database import Database
 from App.Game import Game
-from config import *
 import pygame
 
 pygame.init()

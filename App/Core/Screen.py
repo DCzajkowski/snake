@@ -1,5 +1,5 @@
+from App.constants import *
 from App.Core.Illustrator import Illustrator
-from config import *
 
 class Screen:
     game = None

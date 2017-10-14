@@ -1,3 +1,4 @@
+from App.constants import *
 from App.Core.ConfigManager import ConfigManager
 from App.Core.EventHandler import EventHandler
 from App.Core.Screen import Screen
@@ -5,7 +6,6 @@ from App.Objects.Apple import Apple
 from App.Objects.Snake import Snake
 from App.Scenes.Menu import Menu
 from App.Scenes.Settings import Settings
-from config import *
 from pygame.locals import *
 import random
 import time

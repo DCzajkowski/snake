@@ -1,4 +1,4 @@
-from config import *
+from App.constants import *
 from pygame.locals import *
 
 class EventHandler:
